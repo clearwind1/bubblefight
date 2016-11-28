@@ -23,11 +23,21 @@ class Dircontorllayer extends GameUtil.MyBitmap
 
     private DirTouchBegin(evt:egret.TouchEvent)
     {
-        this.playerrole.startmove(this.touchID);
+        if(this.touchID == 4)
+        {
+
+        }else{
+            this.playerrole.startmove(this.touchID);
+        }
     }
     private DirTouchEnd(evt:egret.TouchEvent)
     {
-        this.playerrole.stopmove();
+        if(this.touchID == 4)
+        {
+            this.playerrole.putbomb();
+        }else{
+            this.playerrole.stopmove();
+        }
     }
 
 }

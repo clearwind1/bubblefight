@@ -16,10 +16,19 @@ var Dircontorllayer = (function (_super) {
         this.addEventListener(egret.TouchEvent.TOUCH_END, this.DirTouchEnd, this);
     };
     p.DirTouchBegin = function (evt) {
-        this.playerrole.startmove(this.touchID);
+        if (this.touchID == 4) {
+        }
+        else {
+            this.playerrole.startmove(this.touchID);
+        }
     };
     p.DirTouchEnd = function (evt) {
-        this.playerrole.stopmove();
+        if (this.touchID == 4) {
+            this.playerrole.putbomb();
+        }
+        else {
+            this.playerrole.stopmove();
+        }
     };
     return Dircontorllayer;
 }(GameUtil.MyBitmap));

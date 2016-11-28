@@ -47,33 +47,36 @@ var StartGameScene = (function (_super) {
         var playscorenum = [10, 20, 30, 40, 560];
         var playkillnum = [1, 23, 33, 15, 88];
         for (var i = 0; i < 5; i++) {
-            var rcir = GameUtil.createCircle(160, 594 + i * 52, 12, 1, 0xb2a33c);
+            var menushape = GameUtil.createRect(141, 576 + i * 51, 469, 38, 0);
+            var showinfobtn = new GameUtil.Menu(this, null, null, this.showotherinfo, [i], menushape);
+            this.othercontain.addChild(showinfobtn);
+            var rcir = GameUtil.createCircle(160, 600 + i * 52, 12, 1, 0xb2a33c);
             this.othercontain.addChild(rcir);
-            var cir = GameUtil.createCircle(160, 594 + i * 52, 11, 1, 0xf9e872);
+            var cir = GameUtil.createCircle(160, 600 + i * 52, 11, 1, 0xf9e872);
             this.othercontain.addChild(cir);
-            var rankid = new GameUtil.MyTextField(155, 594 + i * 52, 20, 0);
+            var rankid = new GameUtil.MyTextField(155, 600 + i * 52, 20, 0);
             rankid.$setStroke(2);
             rankid.$setStrokeColor(0xfdfd4f);
             rankid.setText('' + (i + 1));
             rankid.textColor = 0xffc65e;
             this.othercontain.addChild(rankid);
-            var playname = new GameUtil.MyTextField(180, 594 + i * 52, 20, 0);
+            var playname = new GameUtil.MyTextField(180, 600 + i * 52, 25, 0);
             playname.setText(playnametext[i]);
-            playname.$setStroke(2);
-            playname.$setStrokeColor(0xfdfd4f);
-            playname.textColor = 0x9abf19;
+            //playname.$setStroke(2);
+            //playname.$setStrokeColor(0xffffff);
+            playname.textColor = 0xffffff;
             this.othercontain.addChild(playname);
-            var playscore = new GameUtil.MyTextField(333, 594 + i * 52, 20, 0);
+            var playscore = new GameUtil.MyTextField(333, 600 + i * 52, 25, 0);
             playscore.setText('积分:  ' + playscorenum[i]);
-            playscore.$setStroke(2);
-            playscore.$setStrokeColor(0xfdfd4f);
-            playscore.textColor = 0x9abf19;
+            //playscore.$setStroke(2);
+            //playscore.$setStrokeColor(0xffffff);
+            playscore.textColor = 0xffffff;
             this.othercontain.addChild(playscore);
-            var playkill = new GameUtil.MyTextField(470, 594 + i * 52, 20, 0);
+            var playkill = new GameUtil.MyTextField(470, 600 + i * 52, 25, 0);
             playkill.setText('杀敌:  ' + playkillnum[i]);
-            playkill.$setStroke(2);
-            playkill.$setStrokeColor(0xfdfd4f);
-            playkill.textColor = 0x9abf19;
+            //playkill.$setStroke(2);
+            //playkill.$setStrokeColor(0xfdfd4f);
+            playkill.textColor = 0xffffff;
             this.othercontain.addChild(playkill);
         }
         var close = new GameUtil.Menu(this, 'closebtn_png', 'closebtn_png', this.closecontain);
@@ -216,6 +219,7 @@ var StartGameScene = (function (_super) {
     };
     //关闭其他容器
     p.closecontain = function () {
+        egret.Tween.removeAllTweens();
         this.removeChild(this.othercontain);
         this.othercontain = null;
     };
@@ -232,6 +236,7 @@ var StartGameScene = (function (_super) {
     };
     //玩家信息
     p.playinfo = function () {
+        console.log('GameData._i().PlayerRoleType====', GameData._i().PlayerRoleType);
         this.playcontain.removeChildren();
         var playimg = new GameUtil.MyBitmap(RES.getRes('roletype_' + GameData._i().PlayerRoleType + '_png'), 185, 683);
         this.playcontain.addChild(playimg);
@@ -269,7 +274,10 @@ var StartGameScene = (function (_super) {
         this.bagcontain.removeChildren();
         for (var i = 0; i < GameData._i().PlayerHadrole.length; i++) {
             var rolename = 'hadroletype_' + GameData._i().PlayerHadrole[i] + '_png';
-            var role = new GameUtil.MyBitmap(RES.getRes(rolename), 370 + 105 * (i % 3), 635 + 110 * Math.floor(i / 3));
+            //var role: GameUtil.MyBitmap = new GameUtil.MyBitmap(RES.getRes(rolename),370+105*(i%3),635+110*Math.floor(i/3));
+            var role = new GameUtil.Menu(this, rolename, rolename, this.showrolemenu, [GameData._i().PlayerHadrole[i], i]);
+            role.x = 370 + 105 * (i % 3);
+            role.y = 635 + 110 * Math.floor(i / 3);
             this.bagcontain.addChild(role);
         }
     };
@@ -278,7 +286,12 @@ var StartGameScene = (function (_super) {
         this.bagcontain.removeChildren();
         for (var i = 0; i < GameData._i().PlayerHadtool.length; i++) {
             var toolname = 'shopselftool_' + GameData._i().PlayerHadtool[i] + '_png';
-            var tool = new GameUtil.MyBitmap(RES.getRes(toolname), 367 + 106 * (i % 3), 636 + 110 * Math.floor(i / 3));
+            // var tool: GameUtil.MyBitmap = new GameUtil.MyBitmap(RES.getRes(toolname),367+106*(i%3),636+110*Math.floor(i/3));
+            var tool = new GameUtil.Menu(this, toolname, toolname, this.showtoolmenu, [GameData._i().PlayerHadtool[i], i]);
+            tool.x = 367 + 106 * (i % 3);
+            tool.y = 636 + 110 * Math.floor(i / 3);
+            tool.$setScaleX(0.8);
+            tool.$setScaleY(0.8);
             this.bagcontain.addChild(tool);
         }
     };
@@ -448,6 +461,95 @@ var StartGameScene = (function (_super) {
         this.switchbtn[type].x = this.soundswitch[type] ? 524 : 452;
         var tex = this.soundswitch[type] ? RES.getRes('settingswitchon_png') : RES.getRes('settingswitchoff_png');
         swilog.setNewTexture(tex);
+    };
+    //排行榜显示其他玩家信息
+    p.showotherinfo = function (id) {
+        //console.log('id====',id);
+        var discont = new egret.DisplayObjectContainer();
+        this.othercontain.addChild(discont);
+        var self = this;
+        var discover = GameUtil.createRect(0, 0, this.mStageW, this.mStageH, 0.6);
+        discont.addChild(discover);
+        discover.touchEnabled = true;
+        discover.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            discont.parent.removeChild(discont);
+        }, this);
+        var bg = new GameUtil.MyBitmap(RES.getRes('showinfobg_png'), this.mStageW / 2, this.mStageH / 2);
+        discont.addChild(bg);
+        var infoleft = new GameUtil.MyBitmap(RES.getRes('showinforight_png'), 196, this.mStageH / 2);
+        discont.addChild(infoleft);
+        var inforight = new GameUtil.MyBitmap(RES.getRes('showinfoleft_png'), 479, this.mStageH / 2);
+        discont.addChild(inforight);
+        var playimg = new GameUtil.MyBitmap(RES.getRes('roletype_' + GameData._i().PlayerRoleType + '_png'), 185, this.mStageH / 2);
+        discont.addChild(playimg);
+        var txtst = ['ID:', '名字:', '泡泡:', '总积分:', '总击杀:', '被杀:'];
+        var getplaytext = ['sxd_001', '泡泡小王子', '' + GameData._i().PlayerBubbleNumber, '' + GameData._i().PlayerScore, '' + GameData._i().PlayerKill, '' + GameData._i().PlayerDied];
+        for (var i = 0; i < 6; i++) {
+            var infotext = new GameUtil.MyTextField(340, 580 + 35 * i, 30, 0);
+            infotext.setText(txtst[i]);
+            infotext.textColor = 0x877fc8;
+            discont.addChild(infotext);
+            var infott = new GameUtil.MyTextField(450, 580 + 35 * i, 30, 0);
+            infott.setText(getplaytext[i]);
+            infott.textColor = 0x877fc8;
+            discont.addChild(infott);
+        }
+    };
+    //显示是否使用角色菜单
+    p.showrolemenu = function (roletype, id) {
+        //console.log('showrolemenuroletype======',roletype);
+        if (GameData._i().PlayerRoleType == roletype) {
+            return;
+        }
+        else {
+            var discont = new egret.DisplayObjectContainer();
+            this.othercontain.addChild(discont);
+            var self = this;
+            var discover = GameUtil.createRect(0, 0, this.mStageW, this.mStageH, 0.6);
+            discont.addChild(discover);
+            discover.touchEnabled = true;
+            discover.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+                discont.parent.removeChild(discont);
+            }, this);
+            var rolex = 370 + 105 * (id % 3);
+            var roley = 635 + 110 * Math.floor(id / 3);
+            var usebtn = new GameUtil.Menu(this, null, null, this.usenewrole, [roletype, discont], GameUtil.createRect(rolex, roley, 100, 50, 1, 0xffffff));
+            usebtn.addButtonText('使用', 40, rolex + 50, roley + 25);
+            discont.addChild(usebtn);
+        }
+    };
+    //显示是否使用道具菜单
+    p.showtoolmenu = function (tooltype, id) {
+        //console.log('tooltype=====',tooltype);
+        if (GameData._i().PlayerToolType == tooltype) {
+            return;
+        }
+        else {
+            var discont = new egret.DisplayObjectContainer();
+            this.othercontain.addChild(discont);
+            var self = this;
+            var discover = GameUtil.createRect(0, 0, this.mStageW, this.mStageH, 0.6);
+            discont.addChild(discover);
+            discover.touchEnabled = true;
+            discover.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+                discont.parent.removeChild(discont);
+            }, this);
+            var toolx = 367 + 106 * (id % 3);
+            var tooly = 636 + 110 * Math.floor(id / 3);
+            var usebtn = new GameUtil.Menu(this, null, null, this.usenewtool, [tooltype, discont], GameUtil.createRect(toolx, tooly, 100, 50, 1, 0xffffff));
+            usebtn.addButtonText('使用', 40, toolx + 50, tooly + 25);
+            discont.addChild(usebtn);
+        }
+    };
+    //使用角色
+    p.usenewrole = function (roletype, contain) {
+        GameData._i().PlayerRoleType = roletype;
+        contain.parent.removeChild(contain);
+    };
+    //使用道具
+    p.usenewtool = function (tooltype, contain) {
+        GameData._i().PlayerToolType = tooltype;
+        contain.parent.removeChild(contain);
     };
     return StartGameScene;
 }(GameUtil.BassPanel));
