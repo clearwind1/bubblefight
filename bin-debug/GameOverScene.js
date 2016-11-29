@@ -72,6 +72,7 @@ var GameOverScene = (function (_super) {
         GameUtil.GameScene.runscene(new StartGameScene());
     };
     p.relife = function () {
+        this.parent.reset();
         this.parent.removeChild(this);
     };
     return GameOverScene;

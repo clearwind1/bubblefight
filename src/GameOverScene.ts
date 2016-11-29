@@ -91,6 +91,7 @@ class GameOverScene extends GameUtil.BassPanel
     }
     private relife()
     {
+        (<GameScene>this.parent).reset();
         this.parent.removeChild(this);
     }
 }

@@ -14,6 +14,7 @@ var Dircontorllayer = (function (_super) {
         this.touchEnabled = true;
         this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.DirTouchBegin, this);
         this.addEventListener(egret.TouchEvent.TOUCH_END, this.DirTouchEnd, this);
+        this.addEventListener(egret.TouchEvent.TOUCH_RELEASE_OUTSIDE, this.DirTouchCancel, this);
     };
     p.DirTouchBegin = function (evt) {
         if (this.touchID == 4) {
@@ -25,6 +26,14 @@ var Dircontorllayer = (function (_super) {
     p.DirTouchEnd = function (evt) {
         if (this.touchID == 4) {
             this.playerrole.putbomb();
+        }
+        else {
+            this.playerrole.stopmove();
+        }
+    };
+    p.DirTouchCancel = function (evt) {
+        //console.log('cancel');
+        if (this.touchID == 4) {
         }
         else {
             this.playerrole.stopmove();

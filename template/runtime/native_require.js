@@ -10,6 +10,7 @@ var game_file_list = [
 	"libs/modules/res/res.js",
 	"libs/modules/weixinapi/weixinapi.js",
 	"bin-debug/GameUtils3/MyBitmap.js",
+	"bin-debug/BombSprite.js",
 	"bin-debug/Dircontorllayer.js",
 	"bin-debug/GameData.js",
 	"bin-debug/GameUtils3/BassPanel.js",
@@ -34,6 +35,7 @@ var game_file_list = [
 	"bin-debug/GameUtils3/utils.js",
 	"bin-debug/LoadingUI.js",
 	"bin-debug/Main.js",
+	"bin-debug/Obstrution.js",
 	"bin-debug/RoleSprite.js",
 	"bin-debug/StartGameScene.js",
 	//----auto game_file_list end----

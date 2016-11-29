@@ -19,6 +19,7 @@ class Dircontorllayer extends GameUtil.MyBitmap
         this.touchEnabled = true;
         this.addEventListener(egret.TouchEvent.TOUCH_BEGIN,this.DirTouchBegin,this);
         this.addEventListener(egret.TouchEvent.TOUCH_END,this.DirTouchEnd,this);
+        this.addEventListener(egret.TouchEvent.TOUCH_RELEASE_OUTSIDE,this.DirTouchCancel,this);
     }
 
     private DirTouchBegin(evt:egret.TouchEvent)
@@ -35,6 +36,15 @@ class Dircontorllayer extends GameUtil.MyBitmap
         if(this.touchID == 4)
         {
             this.playerrole.putbomb();
+        }else{
+            this.playerrole.stopmove();
+        }
+    }
+    private DirTouchCancel(evt:egret.TouchEvent)
+    {
+        //console.log('cancel');
+        if(this.touchID == 4)
+        {
         }else{
             this.playerrole.stopmove();
         }
