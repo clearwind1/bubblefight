@@ -113,6 +113,8 @@ var GameUtil;
             this.btnImg.scaleY = scaleY;
         };
         p.TouchBegin = function (event) {
+            var sound = RES.getRes('clicksound_ogg');
+            sound.play(0, 1);
             //console.log("touchbegin");
             if (this.btnImg != null) {
                 this.btnImg.setNewTexture(this.menuSelectTexture);

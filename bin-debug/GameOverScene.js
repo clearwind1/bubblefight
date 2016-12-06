@@ -15,29 +15,55 @@ var GameOverScene = (function (_super) {
         this.touchEnabled = true;
         var shap = GameUtil.createRect(0, 0, this.mStageW, this.mStageH, 0.6);
         this.addChild(shap);
-        var gameoverbg = new GameUtil.MyBitmap(RES.getRes('gameoverbg_png'), this.mStageW / 2, this.mStageH / 2);
-        this.addChild(gameoverbg);
-        var gameovertext = new GameUtil.MyBitmap(RES.getRes('gameovertext_png'), this.mStageW / 2, 512);
-        this.addChild(gameovertext);
-        var btname = ['gameovershare_png', 'gameoverturnback_png', 'gameoverrelife_png'];
-        var btnfun = [this.share, this.turnback, this.relife];
-        for (var i = 0; i < 3; i++) {
-            var btn = new GameUtil.Menu(this, btname[i], btname[i], btnfun[i]);
-            btn.x = 215 + i * 160;
-            btn.y = 965;
-            this.addChild(btn);
+        var param = {
+            openid: GameData._i().UserInfo['openid'],
+            type: 3,
+            count: GameData._i().PlayerKill
+        };
+        GameUtil.Http.getinstance().send(param, "/paopao/updatekilldata", this.sendanother, this);
+    };
+    p.sendanother = function (data) {
+        if (data['code'] == 1) {
+            var param = {
+                openid: GameData._i().UserInfo['openid'],
+                type: 4,
+                count: GameData._i().PlayerDied
+            };
+            GameUtil.Http.getinstance().send(param, "/paopao/updatekilldata", this.showscene, this);
         }
-        var infotext = ['得分:', '击杀:', '被杀:', '反杀:'];
-        var infoData = [score, kill, died, rekill];
-        for (var i = 0; i < 4; i++) {
-            var infoT = new GameUtil.MyTextField(253, 588 + 60 * i, 50, 0, 0);
-            infoT.setText(infotext[i]);
-            infoT.textColor = 0xffffff;
-            this.addChild(infoT);
-            var infoTD = new GameUtil.MyTextField(378, 588 + 60 * i, 50, 0, 0);
-            infoTD.setText('' + infoData[i]);
-            infoTD.textColor = 0xf5eb4b;
-            this.addChild(infoTD);
+        else {
+            data['msg'];
+        }
+    };
+    p.showscene = function (data) {
+        if (data['code'] == 1) {
+            var gameoverbg = new GameUtil.MyBitmap(RES.getRes('gameoverbg_png'), this.mStageW / 2, this.mStageH / 2);
+            this.addChild(gameoverbg);
+            var gameovertext = new GameUtil.MyBitmap(RES.getRes('gameovertext_png'), this.mStageW / 2, 512);
+            this.addChild(gameovertext);
+            var btname = ['gameovershare_png', 'gameoverturnback_png', 'gameoverrelife_png'];
+            var btnfun = [this.share, this.turnback, this.relife];
+            for (var i = 0; i < 3; i++) {
+                var btn = new GameUtil.Menu(this, btname[i], btname[i], btnfun[i]);
+                btn.x = 215 + i * 160;
+                btn.y = 965;
+                this.addChild(btn);
+            }
+            var infotext = ['得分:', '击杀:', '被杀:', '反杀:'];
+            var infoData = [GameData._i().PlayerKill * 150, GameData._i().PlayerKill, GameData._i().PlayerDied, 0];
+            for (var i = 0; i < 4; i++) {
+                var infoT = new GameUtil.MyTextField(253, 588 + 60 * i, 50, 0, 0);
+                infoT.setText(infotext[i]);
+                infoT.textColor = 0xffffff;
+                this.addChild(infoT);
+                var infoTD = new GameUtil.MyTextField(378, 588 + 60 * i, 50, 0, 0);
+                infoTD.setText('' + infoData[i]);
+                infoTD.textColor = 0xf5eb4b;
+                this.addChild(infoTD);
+            }
+        }
+        else {
+            data['msg'];
         }
     };
     p.share = function () {
@@ -68,11 +94,19 @@ var GameOverScene = (function (_super) {
          */
     };
     p.turnback = function () {
+        GameData._i().PlayerDied = 0;
+        GameData._i().PlayerKill = 0;
+        GameData._i().PlayerScore = 0;
         this.parent.removeChild(this);
         GameUtil.GameScene.runscene(new StartGameScene());
     };
     p.relife = function () {
-        this.parent.reset();
+        var gamescene = this.parent;
+        gamescene.reset();
+        for (var i = 0; i < gamescene.rolearr.length; i++) {
+            var role = gamescene.rolearr[i];
+            role.reset();
+        }
         this.parent.removeChild(this);
     };
     return GameOverScene;

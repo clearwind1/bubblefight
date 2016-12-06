@@ -9,25 +9,75 @@ class RoleSprite extends GameUtil.Animation
     public speed: number;
     private isAI: boolean;
     private aiIntag: number;
+
+    private gamecontain: GameScene;
+    private parcontain: egret.DisplayObjectContainer;
+
+    public isSuperstate: boolean = false;
+
     public constructor(textureName:string,totalNumber:number,frameRate:number,posx:number,posy:number,isai:boolean = true)
     {
         super(textureName,totalNumber,frameRate,posx,posy);
         this.isAI = isai;
 
-        if(isai)
+        if(this.isAI)
         {
             this.aiIntag = egret.setInterval(this.aiRun,this,1000);
         }
     }
 
+    public initgamecontain()
+    {
+        this.gamecontain = <GameScene>(this.parent.parent);
+        this.parcontain = <egret.DisplayObjectContainer>this.parent;
+    }
+
+    public setSuperstate()
+    {
+        this.isSuperstate = true;
+
+        var self:any = this;
+        egret.Tween.get(this,{loop:false}).to({alpha:0},500).to({alpha:1},500).to({alpha:0},500).to({alpha:1},500).to({alpha:0},500).to({alpha:1},500).call(function(){
+            self.isSuperstate = false;
+        },self);
+    }
+
     private aiRun()
     {
+        //console.log('run');
+        this.stopmove();
+
+        if(GameData._i().GameOver)
+        {
+            return;
+        }
+
+        if(this.parent == null)
+        {
+            return;
+        }
+
         var self: any = this;
-        var movedir: number = Math.floor(Math.random()*100)%5;
-        this.startmove(movedir);
-        egret.setTimeout(function(){
-            self.stopmove();
-        },this,999);
+        var movedir: number = Math.floor(Math.random()*100);
+        if(movedir > 80)
+        {
+            var self: any = this;
+            //console.log('thisisexit====',this);
+            this.putbomb();
+            this.stopmove();
+            egret.clearInterval(this.aiIntag);
+            egret.setTimeout(function(){
+                self.aiIntag = egret.setInterval(self.aiRun,self,1000);
+            },self,3000);
+            movedir = movedir%4;
+            this.startmove(movedir);
+        }
+        else
+        {
+            movedir = movedir%4;
+            this.startmove(movedir);
+        }
+
     }
 
     public startmove(dir:DIRECTION)
@@ -39,8 +89,25 @@ class RoleSprite extends GameUtil.Animation
 
     private moving()
     {
-        var gamecontain: egret.DisplayObjectContainer = <egret.DisplayObjectContainer>this.parent;
-        var obscontain: egret.DisplayObjectContainer = (<GameScene>gamecontain.parent).obscontain;
+        var gamecontain: egret.DisplayObjectContainer = this.parcontain;
+        if(gamecontain == null)
+        {
+            return;
+        }
+        var obscontain: egret.DisplayObjectContainer = this.gamecontain.obscontain;
+        var toolcontain: egret.DisplayObjectContainer = this.gamecontain.toolcontain;
+
+        for(var i:number=0;i < toolcontain.numChildren;i++)
+        {
+            var obs = toolcontain.getChildAt(i);
+            var rect1 = this.getrect(obs);
+            var rect2 = this.getrect(this);
+
+            if(rect1.intersects(rect2)) {
+                toolcontain.removeChild(obs);
+                this.speed += 5;
+            }
+        }
 
         var dirbool: boolean[] = [false,false,false,false];
 
@@ -50,6 +117,7 @@ class RoleSprite extends GameUtil.Animation
             var obs = obscontain.getChildAt(i);
             var rect1 = this.getrect(obs);
             var rect2 = this.getrect(this);
+
             if(rect1.intersects(rect2)){
                 if(obs.y > this.y){
                     dirbool[DIRECTION.DOWN] = true;
@@ -174,28 +242,79 @@ class RoleSprite extends GameUtil.Animation
 
     public putbomb()
     {
+
+        var sound: egret.Sound = RES.getRes('putbombsound_ogg');
+        sound.play(0,1);
+
         //console.log('putbomb');
-        var gamecontain: egret.DisplayObjectContainer = <egret.DisplayObjectContainer>this.parent;
-        var bomb: BombSprite = new BombSprite(RES.getRes('shopselftool_'+GameData._i().PlayerToolType+'_png'),this.x,this.y);
+        var gamecontain: egret.DisplayObjectContainer = this.parcontain;
+        var gamescene: GameScene = this.gamecontain;
+        //console.log(gamescene);
+        var bomb: BombSprite = new BombSprite(RES.getRes('shopselftool_'+GameData._i().PlayerToolType+'_png'),this.x,this.y,!this.isAI);
+        gamescene.bombarr.push(bomb);
         gamecontain.addChild(bomb);
+        bomb.initdata();
         gamecontain.swapChildren(this,bomb);
     }
 
-    public die()
+    public die(isplayerb:boolean)
     {
-        console.log('die====');
+        //console.log('die====');
+
         if(!this.isAI)
         {
-            var gamecontain:GameScene = <GameScene>(<egret.DisplayObjectContainer>this.parent).parent;
+
+            var sound: egret.Sound = RES.getRes('diesound_ogg');
+            sound.play(0,1);
+
+            GameData._i().PlayerDied++;
+            GameData._i().UserInfo['bekillcount']++;
+            //console.log('playerdie=====',GameData._i().PlayerDied,'totaldie=====',GameData._i().UserInfo['bekillcount']);
+
+            var gamecontain:GameScene = this.gamecontain;
+
+            //console.log('rolearr====',gamecontain.rolearr);
+            for(var i:number=0;i < gamecontain.rolearr.length;i++)
+            {
+                var role = gamecontain.rolearr[i];
+                egret.clearInterval(role.aiIntag);
+                role.stopmove();
+            }
+            //for(var i:number=0;i < gamecontain.bombarr.length;i++)
+            //{
+            //    var bom = gamecontain.bombarr[i];
+            //    egret.clearTimeout(bom.titag);
+            //    gamecontain.bombarr.splice(gamecontain.bombarr.indexOf(bom),1);
+            //}
+            //for(var i:number=0;i < gamecontain.bomeffectarr.length;i++)
+            //{
+            //    var bome = gamecontain.bomeffectarr[i];
+            //    gamecontain.bomeffectarr.splice(gamecontain.bomeffectarr.indexOf(bome),1);
+            //}
+
             gamecontain.gameover();
         }
         else
         {
-            var gamecontain:GameScene = <GameScene>(<egret.DisplayObjectContainer>this.parent).parent;
-            egret.clearInterval(this.intage);
-            (<egret.DisplayObjectContainer>this.parent).removeChild(this);
+
+            if(isplayerb)
+            {
+                GameData._i().PlayerKill++;
+                GameData._i().UserInfo['killcount']++;
+                GameData._i().UserInfo['jifen'] += 150;
+
+               // console.log('playerkill=====',GameData._i().PlayerKill,'totalkill=====',GameData._i().UserInfo['killcount'],'积分=======',GameData._i().UserInfo['jifen']);
+            }
+
+            var gamecontain:GameScene = this.gamecontain;
+            egret.clearInterval(this.aiIntag);
+            this.stopmove();
+
+            this.parcontain.removeChild(this);
             var index = gamecontain.rolearr.indexOf(this);
-            gamecontain.rolearr.splice(index,0);
+
+            gamecontain.rolearr.splice(index,1);
+            gamecontain.createrole();
         }
     }
 
@@ -206,6 +325,18 @@ class RoleSprite extends GameUtil.Animation
         rect.y = obj.y - obj.height/2;
 
         return rect;
+    }
+
+    public reset()
+    {
+        if(this.isAI)
+        {
+            this.aiIntag = egret.setInterval(this.aiRun,this,1000);
+        }
+        else
+        {
+            this.setSuperstate();
+        }
     }
 
 }

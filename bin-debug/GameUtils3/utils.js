@@ -229,4 +229,17 @@ var GameUtil;
         }
     }
     GameUtil.isAndroid = isAndroid;
+    //变灰滤镜
+    function changeGray(obj) {
+        //颜色矩阵数组
+        var colorMatrix = [
+            0.3, 0.6, 0, 0, 0,
+            0.3, 0.6, 0, 0, 0,
+            0.3, 0.6, 0, 0, 0,
+            0, 0, 0, 1, 0
+        ];
+        var colorFlilter = new egret.ColorMatrixFilter(colorMatrix);
+        obj.filters = [colorFlilter];
+    }
+    GameUtil.changeGray = changeGray;
 })(GameUtil || (GameUtil = {}));

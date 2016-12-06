@@ -13,6 +13,7 @@ var Dircontorllayer = (function (_super) {
         this.touchID = touchid;
         this.touchEnabled = true;
         this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.DirTouchBegin, this);
+        this.addEventListener(egret.TouchEvent.TOUCH_MOVE, this.DirTouchMove, this);
         this.addEventListener(egret.TouchEvent.TOUCH_END, this.DirTouchEnd, this);
         this.addEventListener(egret.TouchEvent.TOUCH_RELEASE_OUTSIDE, this.DirTouchCancel, this);
     };
@@ -20,7 +21,40 @@ var Dircontorllayer = (function (_super) {
         if (this.touchID == 4) {
         }
         else {
-            this.playerrole.startmove(this.touchID);
+            var gamecon = this.parent;
+            for (var i = 0; i < gamecon.controldirarr.length; i++) {
+                var dircontrolbtn = gamecon.controldirarr[i];
+                //console.log('evtstagex=====',evt.stageX,'evtstagey=====',evt.stageY);
+                if (dircontrolbtn.hitTestPoint(evt.$stageX, evt.stageY)) {
+                    var dir = parseInt(dircontrolbtn.name);
+                    this.touchID = dir;
+                    //console.log('touchid=====',this.touchID);
+                    this.playerrole.startmove(this.touchID);
+                    break;
+                }
+            }
+        }
+    };
+    p.DirTouchMove = function (evt) {
+        //console.log('id======',evt);
+        if (this.touchID == 4) {
+        }
+        else {
+            var gamecon = this.parent;
+            for (var i = 0; i < gamecon.controldirarr.length; i++) {
+                var dircontrolbtn = gamecon.controldirarr[i];
+                //console.log('evtstagex=====',evt.stageX,'evtstagey=====',evt.stageY);
+                if (dircontrolbtn.hitTestPoint(evt.$stageX, evt.stageY)) {
+                    var dir = parseInt(dircontrolbtn.name);
+                    if (this.touchID != dir) {
+                        this.touchID = dir;
+                        //console.log('touchid=====',this.touchID);
+                        this.playerrole.stopmove();
+                        this.playerrole.startmove(this.touchID);
+                        break;
+                    }
+                }
+            }
         }
     };
     p.DirTouchEnd = function (evt) {
@@ -29,6 +63,7 @@ var Dircontorllayer = (function (_super) {
         }
         else {
             this.playerrole.stopmove();
+            this.touchID = -1;
         }
     };
     p.DirTouchCancel = function (evt) {
@@ -37,6 +72,7 @@ var Dircontorllayer = (function (_super) {
         }
         else {
             this.playerrole.stopmove();
+            this.touchID = -1;
         }
     };
     return Dircontorllayer;

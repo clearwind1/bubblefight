@@ -28,6 +28,7 @@ var game_file_list = [
 	"bin-debug/GameUtils3/Menu.js",
 	"bin-debug/GameUtils3/ProgressBar.js",
 	"bin-debug/GameUtils3/RadioButton.js",
+	"bin-debug/GameUtils3/RandomUtils.js",
 	"bin-debug/GameUtils3/ScrollView.js",
 	"bin-debug/GameUtils3/SharePage.js",
 	"bin-debug/GameUtils3/TipsPanel.js",
@@ -38,6 +39,17 @@ var game_file_list = [
 	"bin-debug/Obstrution.js",
 	"bin-debug/RoleSprite.js",
 	"bin-debug/StartGameScene.js",
+	"bin-debug/qr/QR8bitByte.js",
+	"bin-debug/qr/QRBitBuffer.js",
+	"bin-debug/qr/QRPolynomial.js",
+	"bin-debug/qr/QRCode.js",
+	"bin-debug/qr/QRCodeModel.js",
+	"bin-debug/qr/QRErrorCorrectLevel.js",
+	"bin-debug/qr/QRMaskPattern.js",
+	"bin-debug/qr/QRMath.js",
+	"bin-debug/qr/QRMode.js",
+	"bin-debug/qr/QRRSBlock.js",
+	"bin-debug/qr/QRUtil.js",
 	//----auto game_file_list end----
 ];
 

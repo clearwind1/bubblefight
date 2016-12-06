@@ -141,6 +141,8 @@ module GameUtil
 
         private TouchBegin(event:egret.TouchEvent):void
         {
+            var sound: egret.Sound = RES.getRes('clicksound_ogg');
+            sound.play(0,1);
             //console.log("touchbegin");
             if(this.btnImg != null){
                 this.btnImg.setNewTexture(this.menuSelectTexture);

@@ -42,25 +42,60 @@ class Main extends egret.DisplayObjectContainer {
 
     private onAddToStage(event:egret.Event) {
         //设置加载进度界面
-        //if(window.screen.availHeight < window.screen.availWidth) {
-           this.stage.scaleMode = egret.StageScaleMode.SHOW_ALL;
-        //}
-        GameUtil.GameScene.init(this.stage);
-        GameUtil.GameScene.runscene(new GameUtil.LoadingPanel(this.createGameScene,this,0,0));
+        GameData._i().UserInfo['openid'] = GameUtil.getQueryString('openid');
+        GameData._i().UserInfo['shareopenid'] = GameUtil.getQueryString('shareopenid');
+
+        console.log("openid======",GameData._i().UserInfo['openid']);
+
+        if(!GameUtil.getQueryString('openid')){
+            if(GameUtil.getQueryString('shareopenid'))
+            {
+                window.location.href = 'http://api.h5.gamexun.com/weixin/auth?game_redirecturl=http://bubblefight.h5.gamexun.com/&shareopenid='+GameUtil.getQueryString('shareopenid');
+            }
+            else
+            {
+                window.location.href = 'http://api.h5.gamexun.com/weixin/auth?game_redirecturl=http://bubblefight.h5.gamexun.com/';
+            }
+        }
+        else
+        {
+
+            if(!GameUtil.getQueryString('shareopenid'))
+            {
+               // alert('null');
+                GameData._i().UserInfo['shareopenid'] = null;
+            }
+            else
+            {
+               // alert('shareopid=================='+GameUtil.getQueryString('shareopenid'));
+                GameData._i().UserInfo['shareopenid'] = GameUtil.getQueryString('shareopenid');
+            }
+
+            this.stage.scaleMode = egret.StageScaleMode.EXACT_FIT;
+            //this.stage.setContentSize(GameUtil.GameConfig.DesignWidth,GameUtil.GameConfig.DesignHeight);
+
+            GameUtil.GameScene.init(this.stage);
+            GameUtil.GameScene.runscene(new GameUtil.LoadingPanel(this.createGameScene,this,0,0));
+        }
     }
 
     /**
      * 创建游戏场景
      * Create a game scene
      */
+    private intag;
     private createGameScene():void {
 
-        GameUtil.Http.getinstance();
-        GameData._i();
-
-        GameUtil.GameConfig._i().setStageHeight(this.stage.stageHeight);
-        GameUtil.GameScene.runscene(new StartGameScene());
-
+       // GameUtil.Http.getinstance();
+        if(GameData._i().isLoadingend){
+            egret.clearInterval(this.intag);
+            GameUtil.GameConfig._i().setStageHeight(this.stage.stageHeight);
+            GameUtil.GameScene.runscene(new StartGameScene());
+        }
+        else
+        {
+            this.intag = egret.setInterval(this.createGameScene,this,400);
+        }
     }
 
 }

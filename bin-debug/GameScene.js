@@ -17,6 +17,11 @@ var GameScene = (function (_super) {
     var d = __define,c=GameScene,p=c.prototype;
     p.init = function () {
         this.rolearr = [];
+        this.bombarr = [];
+        this.readybomarr = [];
+        this.bomeffectarr = [];
+        this.controldirarr = [];
+        GameData._i().GameOver = false;
         this.showgamebg();
     };
     p.showgamebg = function () {
@@ -27,53 +32,83 @@ var GameScene = (function (_super) {
         // this.playerrole = new RoleSprite(RES.getRes('shopself_'+GameData._i().PlayerRoleType+'_png'),this.mStageW/2,this.mStageH/2);
         this.playerrole = new RoleSprite('roletype' + GameData._i().PlayerRoleType, 4, 80, this.mStageW / 2, this.mStageH / 2, false);
         this.GameMapContain.addChild(this.playerrole);
+        this.playerrole.setSuperstate();
+        this.playerrole.initgamecontain();
         this.playerrole.setLoop(-1);
         this.playerrole.play();
         this.playerrole.pause();
         this.playerrole.speed = GameData._i().PlayerRoleSpeed;
         this.rolearr.push(this.playerrole);
-        for (var i = 0; i < 2; i++) {
-            var airole = new RoleSprite('roletype' + GameData._i().PlayerRoleType, 4, 80, 100 + i * 2000, 100);
-            this.GameMapContain.addChild(airole);
-            airole.setLoop(-1);
-            airole.play();
-            airole.pause();
-            airole.speed = 20;
-            this.rolearr.push(airole);
+        for (var i = 0; i < GameData.AIROLENUM; i++) {
+            this.createrole();
         }
         this.obscontain = new egret.DisplayObjectContainer();
         this.GameMapContain.addChild(this.obscontain);
-        //var self: any = this;
-        //var bombtn: egret.Shape = GameUtil.createRect(0,0,this.mStageW,this.mStageH,0.5);
-        var rolecontrolimg = new GameUtil.MyBitmap(RES.getRes('roleControlimg_png'), this.mStageW / 2, 1170);
+        this.toolcontain = new egret.DisplayObjectContainer();
+        this.GameMapContain.addChild(this.toolcontain);
+        var rolecontrolimg = new Dircontorllayer(RES.getRes('roleControlimg_png'), this.mStageW / 2, 1120, -1, this.playerrole);
         this.addChild(rolecontrolimg);
-        var dirpos = [[367, 1090], [447, 1169], [369, 1253], [294, 1169], [375, 1170]];
-        for (var i = 0; i < 5; i++) {
-            var dircontrolbtn = new Dircontorllayer(RES.getRes('helpselect_png'), dirpos[i][0], dirpos[i][1], i, this.playerrole);
-            dircontrolbtn.scaleX = 3;
-            dircontrolbtn.scaleY = 3;
+        var dirpos = [[375, 1000], [500, 1120], [375, 1240], [254, 1120], [375, 1120]];
+        for (var i = 0; i < 4; i++) {
+            var dircontrolbtn = new GameUtil.MyBitmap(RES.getRes('helpselect_png'), dirpos[i][0], dirpos[i][1]);
+            dircontrolbtn.scaleX = 4;
+            dircontrolbtn.scaleY = 4;
             dircontrolbtn.alpha = 0;
             this.addChild(dircontrolbtn);
+            dircontrolbtn.name = '' + i;
+            this.controldirarr.push(dircontrolbtn);
         }
-        this.increateobstag = egret.setInterval(this.createobs, this, 1000);
+        var putbombtn = new Dircontorllayer(RES.getRes('putbombtn_png'), this.mStageW / 2, 1120, 4, this.playerrole);
+        this.addChild(putbombtn);
+        this.increateobstag = egret.setInterval(this.createobs, this, 3000);
+        this.increatetooltag = egret.setInterval(this.createtool, this, 5000);
+    };
+    p.createrole = function () {
+        var posx = [100, 500, 1000, 2000];
+        var posy = [100, 400, 200, 300];
+        var roletype = Math.floor(Math.random() * 100) % 5;
+        var rolex = Math.floor(Math.random() * 100) % 4;
+        var roley = Math.floor(Math.random() * 100) % 4;
+        var airole = new RoleSprite('roletype' + roletype, 4, 80, posx[rolex], posy[roley]);
+        this.GameMapContain.addChild(airole);
+        airole.initgamecontain();
+        airole.setLoop(-1);
+        airole.play();
+        airole.pause();
+        airole.speed = 20;
+        this.rolearr.push(airole);
     };
     p.createobs = function () {
         if (this.obscontain.numChildren >= 20) {
             return;
         }
-        console.log('createobs');
+        //console.log('createobs');
         var obstype = Math.floor(Math.random() * 100) % 12;
         var obsposx = 60 + Math.floor(Math.random() * 100000) % 2548;
         var obsposy = 60 + Math.floor(Math.random() * 100000) % 1380;
         var obs = new Obstrution(RES.getRes('obstrution' + obstype + '_png'), obsposx, obsposy);
         this.obscontain.addChild(obs);
     };
+    p.createtool = function () {
+        if (this.toolcontain.numChildren >= 4) {
+            return;
+        }
+        var obstype = Math.floor(Math.random() * 100) % 1;
+        var obsposx = 60 + Math.floor(Math.random() * 100000) % 2548;
+        var obsposy = 60 + Math.floor(Math.random() * 100000) % 1380;
+        var obs = new Obstrution(RES.getRes('tool' + obstype + '_png'), obsposx, obsposy);
+        this.toolcontain.addChild(obs);
+    };
     p.gameover = function () {
+        GameData._i().GameOver = true;
         egret.clearInterval(this.increateobstag);
+        egret.clearInterval(this.increatetooltag);
         this.addChild(new GameOverScene(100, 1, 1, 0));
     };
     p.reset = function () {
+        GameData._i().GameOver = false;
         this.increateobstag = egret.setInterval(this.createobs, this, 3000);
+        this.increatetooltag = egret.setInterval(this.createtool, this, 5000);
     };
     return GameScene;
 }(GameUtil.BassPanel));
