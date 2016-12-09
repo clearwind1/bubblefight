@@ -43,8 +43,7 @@ class BombSprite extends GameUtil.MyBitmap
 
         //this.gamecontain.readybomarr.push(this);
 
-        var sound: egret.Sound = RES.getRes('bombsound_ogg');
-        sound.play(0,1);
+        GameData._i().gamesound[SoundName.bombsound].play(0,1);
 
         egret.clearTimeout(this.titag);
         this.tw.loop = false;

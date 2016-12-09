@@ -38,11 +38,21 @@ module GameUtil
             //RES.getResByUrl(this.imageUrl,this.onComplete,this,RES.ResourceItem.TYPE_IMAGE);
             new GameUtil.LoadingLogopre(this.onComplete,this);
 
+            this.loadsound();
+
             var param:Object = {
                 openId: GameData._i().UserInfo['openid'],
                 nickname: GameUtil.getQueryString('nickname')
             }
             GameUtil.Http.getinstance().send(param, "/paopao/adduserinfo", this.setplayerinfo, this);
+        }
+        private loadsound()
+        {
+            var soundname: string[] = ['clicksound.ogg','startsound.ogg','putbombsound.ogg','bombsound.ogg','diesound.ogg','startgamebgm.ogg','gamebgm.ogg'];
+            for(var i:number=0;i < soundname.length;i++)
+            {
+                GameData._i().gamesound[i] = new MySound(soundname[i]);
+            }
         }
         private onComplete(event:any):void
         {

@@ -5,7 +5,7 @@
 		"name":"preloading"
 	},
 	{
-		"keys":"startgamebtn_png,startgamebg_png,rankbtn_png,actionbtn_png,helpbtn_png,luckactbtn_png,personbtn_png,settingbtn_png,sharebtn_png,shopbtn_png,luckpan_png,luckpoint_png,closebtn_png,man_png,personinfobg_png,bagbtn_png,personinfobtn_png,rolebtn_png,toolbtn_png,rolegirl_png,roleman_png,bluebubble_png,rankbg_png,ranktext_png,sharebg_png,sharecordbtn_png,sharetip_png,buybtn_png,shopbg_png,shoptip_png,shopself_0_png,shopself_1_png,shopself_2_png,shopself_3_png,shopself_4_png,shopself_5_png,shopselftool_0_png,shopselftool_1_png,shopselftool_2_png,shopselftool_3_png,shopselftool_4_png,shopselftool_5_png,settingbg_png,settingswitch_png,settingswitchoff_png,settingswitchon_png,helpbg_0_png,helpbg_1_png,helpbg_2_png,helpclose_png,helppagepoint_png,helpselect_png,roletype_0_png,roletype_1_png,roletype_2_png,roletype_3_png,roletype_4_png,roletype_5_png,hadroletype_0_png,hadroletype_1_png,hadroletype_2_png,hadroletype_3_png,hadroletype_4_png,hadroletype_5_png,map_jpg,gameoverbg_png,gameoverrelife_png,gameovershare_png,gameovertext_png,gameoverturnback_png,roleControlimg_png,mapblue_png,mapyellow_png,gamebubbletool_0_png,gamebubbletool_1_png,gamebubbletool_2_png,gamebubbletool_3_png,gamebubbletool_4_png,gamebubbletool_5_png,showinfobg_png,showinfoleft_png,showinforight_png,roletype01_png,roletype02_png,roletype03_png,roletype04_png,roletype11_png,roletype12_png,roletype13_png,roletype14_png,roletype21_png,roletype22_png,roletype23_png,roletype24_png,roletype31_png,roletype32_png,roletype33_png,roletype34_png,roletype41_png,roletype42_png,roletype43_png,roletype44_png,roletype51_png,roletype52_png,roletype53_png,roletype54_png,bombeffectl_png,bombeffectp_png,obstrution0_png,obstrution1_png,obstrution10_png,obstrution11_png,obstrution2_png,obstrution3_png,obstrution4_png,obstrution5_png,obstrution6_png,obstrution7_png,obstrution8_png,obstrution9_png,putbombtn_png,bombsound_ogg,clicksound_ogg,diesound_ogg,putbombsound_ogg,startsound_ogg,tool0_png",
+		"keys":"startgamebtn_png,startgamebg_png,rankbtn_png,actionbtn_png,helpbtn_png,luckactbtn_png,personbtn_png,settingbtn_png,sharebtn_png,shopbtn_png,luckpan_png,luckpoint_png,closebtn_png,man_png,personinfobg_png,bagbtn_png,personinfobtn_png,rolebtn_png,toolbtn_png,rolegirl_png,roleman_png,bluebubble_png,rankbg_png,ranktext_png,sharebg_png,sharecordbtn_png,sharetip_png,buybtn_png,shopbg_png,shoptip_png,shopself_0_png,shopself_1_png,shopself_2_png,shopself_3_png,shopself_4_png,shopself_5_png,shopselftool_0_png,shopselftool_1_png,shopselftool_2_png,shopselftool_3_png,shopselftool_4_png,shopselftool_5_png,settingbg_png,settingswitch_png,settingswitchoff_png,settingswitchon_png,helpbg_0_png,helpbg_1_png,helpbg_2_png,helpclose_png,helppagepoint_png,helpselect_png,roletype_0_png,roletype_1_png,roletype_2_png,roletype_3_png,roletype_4_png,roletype_5_png,hadroletype_0_png,hadroletype_1_png,hadroletype_2_png,hadroletype_3_png,hadroletype_4_png,hadroletype_5_png,map_jpg,gameoverbg_png,gameoverrelife_png,gameovershare_png,gameovertext_png,gameoverturnback_png,roleControlimg_png,mapblue_png,mapyellow_png,gamebubbletool_0_png,gamebubbletool_1_png,gamebubbletool_2_png,gamebubbletool_3_png,gamebubbletool_4_png,gamebubbletool_5_png,showinfobg_png,showinfoleft_png,showinforight_png,roletype01_png,roletype02_png,roletype03_png,roletype04_png,roletype11_png,roletype12_png,roletype13_png,roletype14_png,roletype21_png,roletype22_png,roletype23_png,roletype24_png,roletype31_png,roletype32_png,roletype33_png,roletype34_png,roletype41_png,roletype42_png,roletype43_png,roletype44_png,roletype51_png,roletype52_png,roletype53_png,roletype54_png,bombeffectl_png,bombeffectp_png,obstrution0_png,obstrution1_png,obstrution10_png,obstrution11_png,obstrution2_png,obstrution3_png,obstrution4_png,obstrution5_png,obstrution6_png,obstrution7_png,obstrution8_png,obstrution9_png,putbombtn_png,tool0_png",
 		"name":"preload"
 	}],
 	"resources":[
@@ -623,31 +623,6 @@
 		"name":"putbombtn_png",
 		"type":"image",
 		"url":"assets/putbombtn.png"
-	},
-	{
-		"name":"bombsound_ogg",
-		"type":"sound",
-		"url":"assets/bombsound.ogg"
-	},
-	{
-		"name":"clicksound_ogg",
-		"type":"sound",
-		"url":"assets/clicksound.ogg"
-	},
-	{
-		"name":"diesound_ogg",
-		"type":"sound",
-		"url":"assets/diesound.ogg"
-	},
-	{
-		"name":"putbombsound_ogg",
-		"type":"sound",
-		"url":"assets/putbombsound.ogg"
-	},
-	{
-		"name":"startsound_ogg",
-		"type":"sound",
-		"url":"assets/startsound.ogg"
 	},
 	{
 		"name":"tool0_png",

@@ -71,7 +71,7 @@ class Main extends egret.DisplayObjectContainer {
                 GameData._i().UserInfo['shareopenid'] = GameUtil.getQueryString('shareopenid');
             }
 
-            this.stage.scaleMode = egret.StageScaleMode.EXACT_FIT;
+            this.stage.scaleMode = egret.StageScaleMode.FIXED_NARROW;
             //this.stage.setContentSize(GameUtil.GameConfig.DesignWidth,GameUtil.GameConfig.DesignHeight);
 
             GameUtil.GameScene.init(this.stage);
@@ -90,6 +90,7 @@ class Main extends egret.DisplayObjectContainer {
         if(GameData._i().isLoadingend){
             egret.clearInterval(this.intag);
             GameUtil.GameConfig._i().setStageHeight(this.stage.stageHeight);
+            GameUtil.GameConfig._i().setStageWidth(this.stage.stageWidth);
             GameUtil.GameScene.runscene(new StartGameScene());
         }
         else

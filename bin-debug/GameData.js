@@ -1,11 +1,24 @@
 /**
  * Created by pior on 16/11/17.
  */
+var SoundName;
+(function (SoundName) {
+    SoundName[SoundName["clicksound"] = 0] = "clicksound";
+    SoundName[SoundName["startsound"] = 1] = "startsound";
+    SoundName[SoundName["putbombsound"] = 2] = "putbombsound";
+    SoundName[SoundName["bombsound"] = 3] = "bombsound";
+    SoundName[SoundName["diesound"] = 4] = "diesound";
+    SoundName[SoundName["startgamebgm"] = 5] = "startgamebgm";
+    SoundName[SoundName["gamebgm"] = 6] = "gamebgm";
+})(SoundName || (SoundName = {}));
+;
 var GameData = (function () {
     function GameData() {
         this.GameOver = false;
         this.isLoadingend = false;
         this.isgetInfoend = false;
+        this.isSoundOn = [true, true];
+        this.gamesound = [];
         this.UserInfo = {
             'ID': '',
             'nickname': '',
@@ -42,6 +55,7 @@ var GameData = (function () {
         return (this._inst = (this._inst == null ? new GameData() : this._inst));
     };
     GameData.AIROLENUM = 4;
+    GameData.OBSNUM = 25;
     GameData._inst = null;
     return GameData;
 }());

@@ -26,6 +26,7 @@ var game_file_list = [
 	"bin-debug/GameUtils3/LoadingLogopre.js",
 	"bin-debug/GameUtils3/LoadingPanel.js",
 	"bin-debug/GameUtils3/Menu.js",
+	"bin-debug/GameUtils3/MySound.js",
 	"bin-debug/GameUtils3/ProgressBar.js",
 	"bin-debug/GameUtils3/RadioButton.js",
 	"bin-debug/GameUtils3/RandomUtils.js",

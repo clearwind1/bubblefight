@@ -83,7 +83,7 @@ var RoleSprite = (function (_super) {
                 if (obs.y > this.y) {
                     dirbool[DIRECTION.DOWN] = true;
                 }
-                else if (obs.y < this.y) {
+                if (obs.y < this.y) {
                     dirbool[DIRECTION.UP] = true;
                 }
                 if (obs.x < this.x) {
@@ -101,14 +101,14 @@ var RoleSprite = (function (_super) {
                     return;
                 }
                 if (this.isAI) {
-                    this.y = (this.y - speed <= 0) ? 0 : (this.y - speed);
+                    this.y = (this.y - speed <= 15) ? 15 : (this.y - speed);
                 }
                 else {
-                    if (gamecontain.y == 83) {
-                        this.y = (this.y - speed <= 0) ? 0 : (this.y - speed);
+                    if (gamecontain.y == 0) {
+                        this.y = (this.y - speed <= 15) ? 15 : (this.y - speed);
                     }
                     else {
-                        gamecontain.y = (gamecontain.y + speed >= 83) ? 83 : (gamecontain.y + speed);
+                        gamecontain.y = (gamecontain.y + speed >= 0) ? 0 : (gamecontain.y + speed);
                         this.y -= speed;
                     }
                 }
@@ -119,14 +119,14 @@ var RoleSprite = (function (_super) {
                 }
                 this.$setScaleX(1);
                 if (this.isAI) {
-                    this.x = (this.x + speed >= 1720 - this.width) ? 1720 - this.width : (this.x + speed);
+                    this.x = (this.x + speed >= gamecontain.width - this.width - 20) ? gamecontain.width - this.width - 20 : (this.x + speed);
                 }
                 else {
-                    if (gamecontain.x == -959) {
-                        this.x = (this.x + speed >= 1720 - this.width) ? 1720 - this.width : (this.x + speed);
+                    if (gamecontain.x == GameUtil.GameConfig._i().getWH() - gamecontain.width) {
+                        this.x = (this.x + speed >= gamecontain.width - this.width - 20) ? gamecontain.width - this.width - 20 : (this.x + speed);
                     }
                     else {
-                        gamecontain.x = (gamecontain.x - speed <= -959) ? -959 : (gamecontain.x - speed);
+                        gamecontain.x = (gamecontain.x - speed <= GameUtil.GameConfig._i().getWH() - gamecontain.width) ? (GameUtil.GameConfig._i().getWH() - gamecontain.width) : (gamecontain.x - speed);
                         this.x += speed;
                     }
                 }
@@ -136,14 +136,15 @@ var RoleSprite = (function (_super) {
                     return;
                 }
                 if (this.isAI) {
-                    this.y = (this.y + speed >= (1500 - this.height - 74)) ? (1500 - this.height - 74) : (this.y + speed);
+                    this.y = (this.y + speed >= (gamecontain.height - this.height)) ? (gamecontain.height - this.height) : (this.y + speed);
                 }
                 else {
-                    if (gamecontain.y == -83) {
-                        this.y = (this.y + speed >= (1500 - this.height - 74)) ? (1500 - this.height - 74) : (this.y + speed);
+                    // console.log('gamecontainy======',gamecontain.y,'widh=====',GameUtil.GameConfig._i().getSH(),'gamecontainheight=====',gamecontain.height);
+                    if (gamecontain.y == GameUtil.GameConfig._i().getSH() - gamecontain.height) {
+                        this.y = (this.y + speed >= (gamecontain.height - this.height)) ? (gamecontain.height - this.height) : (this.y + speed);
                     }
                     else {
-                        gamecontain.y = (gamecontain.y - speed <= -83) ? -83 : (gamecontain.y - speed);
+                        gamecontain.y = (gamecontain.y - speed <= GameUtil.GameConfig._i().getSH() - gamecontain.height) ? GameUtil.GameConfig._i().getSH() - gamecontain.height : (gamecontain.y - speed);
                         this.y += speed;
                     }
                 }
@@ -154,14 +155,14 @@ var RoleSprite = (function (_super) {
                     return;
                 }
                 if (this.isAI) {
-                    this.x = (this.x - speed <= (-980 + this.width)) ? -980 + this.width : (this.x - speed);
+                    this.x = (this.x - speed <= (+this.width + 20)) ? this.width + 20 : (this.x - speed);
                 }
                 else {
-                    if (gamecontain.x == 959) {
-                        this.x = (this.x - speed <= (-980 + this.width)) ? -980 + this.width : (this.x - speed);
+                    if (gamecontain.x == 0) {
+                        this.x = (this.x - speed <= this.width + 20) ? this.width + 20 : (this.x - speed);
                     }
                     else {
-                        gamecontain.x = (gamecontain.x + speed >= 959) ? 959 : (gamecontain.x + speed);
+                        gamecontain.x = (gamecontain.x + speed >= 0) ? 0 : (gamecontain.x + speed);
                         this.x -= speed;
                     }
                 }
@@ -173,12 +174,18 @@ var RoleSprite = (function (_super) {
         egret.clearInterval(this.intage);
     };
     p.putbomb = function () {
-        var sound = RES.getRes('putbombsound_ogg');
-        sound.play(0, 1);
+        GameData._i().gamesound[SoundName.putbombsound].play(0, 1);
         //console.log('putbomb');
         var gamecontain = this.parcontain;
         var gamescene = this.gamecontain;
         //console.log(gamescene);
+        for (var i = 0; i < gamescene.bombarr.length; i++) {
+            var rebom = gamescene.bombarr[i];
+            var rect1 = this.getrect(rebom);
+            if (rect1.contains(this.x, this.y)) {
+                return;
+            }
+        }
         var bomb = new BombSprite(RES.getRes('shopselftool_' + GameData._i().PlayerToolType + '_png'), this.x, this.y, !this.isAI);
         gamescene.bombarr.push(bomb);
         gamecontain.addChild(bomb);
@@ -188,8 +195,7 @@ var RoleSprite = (function (_super) {
     p.die = function (isplayerb) {
         //console.log('die====');
         if (!this.isAI) {
-            var sound = RES.getRes('diesound_ogg');
-            sound.play(0, 1);
+            GameData._i().gamesound[SoundName.diesound].play(0, 1);
             GameData._i().PlayerDied++;
             GameData._i().UserInfo['bekillcount']++;
             //console.log('playerdie=====',GameData._i().PlayerDied,'totaldie=====',GameData._i().UserInfo['bekillcount']);
@@ -229,9 +235,15 @@ var RoleSprite = (function (_super) {
         }
     };
     p.getrect = function (obj) {
+        var sourcesc = obj.scaleY;
+        var newsc = sourcesc - 0.1;
+        obj.scaleX = newsc;
+        obj.scaleY = newsc;
         var rect = obj.getBounds();
         rect.x = obj.x - obj.width / 2;
         rect.y = obj.y - obj.height / 2;
+        obj.scaleX = sourcesc;
+        obj.scaleY = sourcesc;
         return rect;
     };
     p.reset = function () {

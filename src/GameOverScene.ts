@@ -55,15 +55,15 @@ class GameOverScene extends GameUtil.BassPanel
             this.addChild(gameoverbg);
             var gameovertext: GameUtil.MyBitmap = new GameUtil.MyBitmap(RES.getRes('gameovertext_png'),this.mStageW/2,512);
             this.addChild(gameovertext);
+            GameUtil.relativepos(gameovertext,gameoverbg,246,61);
 
             var btname: string[] = ['gameovershare_png','gameoverturnback_png','gameoverrelife_png'];
             var btnfun: Function[] = [this.share,this.turnback,this.relife];
             for(var i:number=0;i < 3;i++)
             {
                 var btn: GameUtil.Menu = new GameUtil.Menu(this,btname[i],btname[i],btnfun[i]);
-                btn.x = 215+i*160;
-                btn.y = 965;
                 this.addChild(btn);
+                GameUtil.relativepos(btn,gameoverbg,70+i*165,500);
             }
 
             var infotext: string[] = ['得分:','击杀:','被杀:','反杀:'];
@@ -74,11 +74,13 @@ class GameOverScene extends GameUtil.BassPanel
                 infoT.setText(infotext[i]);
                 infoT.textColor= 0xffffff;
                 this.addChild(infoT);
+                GameUtil.relativepos(infoT,gameoverbg,70,130+60*i);
 
                 var infoTD:GameUtil.MyTextField = new GameUtil.MyTextField(378,588+60*i,50,0,0);
                 infoTD.setText(''+infoData[i]);
                 infoTD.textColor= 0xf5eb4b;
                 this.addChild(infoTD);
+                GameUtil.relativepos(infoTD,gameoverbg,195,130+60*i);
             }
         }
         else
@@ -123,6 +125,7 @@ class GameOverScene extends GameUtil.BassPanel
         GameData._i().PlayerKill = 0;
         GameData._i().PlayerScore = 0;
         this.parent.removeChild(this);
+        GameData._i().gamesound[SoundName.gamebgm].stop();
         GameUtil.GameScene.runscene(new StartGameScene());
     }
     private relife()

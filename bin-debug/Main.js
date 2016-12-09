@@ -55,7 +55,7 @@ var Main = (function (_super) {
                 // alert('shareopid=================='+GameUtil.getQueryString('shareopenid'));
                 GameData._i().UserInfo['shareopenid'] = GameUtil.getQueryString('shareopenid');
             }
-            this.stage.scaleMode = egret.StageScaleMode.EXACT_FIT;
+            this.stage.scaleMode = egret.StageScaleMode.FIXED_NARROW;
             //this.stage.setContentSize(GameUtil.GameConfig.DesignWidth,GameUtil.GameConfig.DesignHeight);
             GameUtil.GameScene.init(this.stage);
             GameUtil.GameScene.runscene(new GameUtil.LoadingPanel(this.createGameScene, this, 0, 0));
@@ -66,6 +66,7 @@ var Main = (function (_super) {
         if (GameData._i().isLoadingend) {
             egret.clearInterval(this.intag);
             GameUtil.GameConfig._i().setStageHeight(this.stage.stageHeight);
+            GameUtil.GameConfig._i().setStageWidth(this.stage.stageWidth);
             GameUtil.GameScene.runscene(new StartGameScene());
         }
         else {

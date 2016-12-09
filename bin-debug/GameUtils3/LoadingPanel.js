@@ -26,11 +26,18 @@ var GameUtil;
         p.init = function () {
             //RES.getResByUrl(this.imageUrl,this.onComplete,this,RES.ResourceItem.TYPE_IMAGE);
             new GameUtil.LoadingLogopre(this.onComplete, this);
+            this.loadsound();
             var param = {
                 openId: GameData._i().UserInfo['openid'],
                 nickname: GameUtil.getQueryString('nickname')
             };
             GameUtil.Http.getinstance().send(param, "/paopao/adduserinfo", this.setplayerinfo, this);
+        };
+        p.loadsound = function () {
+            var soundname = ['clicksound.ogg', 'startsound.ogg', 'putbombsound.ogg', 'bombsound.ogg', 'diesound.ogg', 'startgamebgm.ogg', 'gamebgm.ogg'];
+            for (var i = 0; i < soundname.length; i++) {
+                GameData._i().gamesound[i] = new MySound(soundname[i]);
+            }
         };
         p.onComplete = function (event) {
             //console.log("onComplete");

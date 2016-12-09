@@ -7,6 +7,9 @@ var GameUtil;
     var GameConfig = (function () {
         function GameConfig() {
             this.stagetY = 0;
+            this.stagetX = 0;
+            this.bgamemusic = true;
+            this.bgamesound = true;
         }
         var d = __define,c=GameConfig,p=c.prototype;
         GameConfig._i = function () {
@@ -20,6 +23,12 @@ var GameUtil;
         };
         p.getSH = function () {
             return this.stagetY;
+        };
+        p.setStageWidth = function (stagetx) {
+            this.stagetX = stagetx;
+        };
+        p.getWH = function () {
+            return this.stagetX;
         };
         GameConfig.IP = "api.h5.gamexun.com"; //http连接地址
         GameConfig.bRunFPS = false; //是否显示FPS
@@ -242,4 +251,32 @@ var GameUtil;
         obj.filters = [colorFlilter];
     }
     GameUtil.changeGray = changeGray;
+    /**
+     * 设置缩放大小
+     * @param obj
+     */
+    function getscalex() {
+        var scale = 1;
+        if (GameConfig._i().getWH() > GameConfig.DesignWidth) {
+            scale = GameConfig._i().getWH() / GameConfig.DesignWidth;
+        }
+        return scale;
+    }
+    GameUtil.getscalex = getscalex;
+    function getscaley() {
+        var scale = 1;
+        if (GameConfig._i().getSH() > GameConfig.DesignHeight) {
+            scale = GameConfig._i().getSH() / GameConfig.DesignHeight;
+        }
+        return scale;
+    }
+    GameUtil.getscaley = getscaley;
+    function relativepos(obj1, obj2, posx, posy, anx) {
+        if (anx === void 0) { anx = false; }
+        if (!anx) {
+            obj1.x = obj2.x - obj2.width / 2 + posx;
+            obj1.y = obj2.y - obj2.height / 2 + posy;
+        }
+    }
+    GameUtil.relativepos = relativepos;
 })(GameUtil || (GameUtil = {}));

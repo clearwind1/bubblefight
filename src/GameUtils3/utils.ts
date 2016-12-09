@@ -3,7 +3,7 @@
  */
 module GameUtil
 {
-    //游戏配置
+  //游戏配置
     export class GameConfig
     {
         public static IP:string = "api.h5.gamexun.com";        //http连接地址
@@ -19,12 +19,16 @@ module GameUtil
         public static DesignHeight:number = 1334;
 
         private stagetY: number = 0;
+        private stagetX: number = 0;
 
         public bfirstplay: boolean;
+        public bgamesound: boolean;
+        public bgamemusic: boolean;
 
         public constructor()
         {
-
+            this.bgamemusic = true;
+            this.bgamesound = true;
         }
 
         private static _instance: GameConfig = null;
@@ -44,6 +48,15 @@ module GameUtil
         public getSH():number
         {
             return this.stagetY;
+        }
+
+        public setStageWidth(stagetx: number):void
+        {
+            this.stagetX = stagetx;
+        }
+        public getWH():number
+        {
+            return this.stagetX;
         }
 
     }
@@ -270,6 +283,41 @@ module GameUtil
         ];
         var colorFlilter = new egret.ColorMatrixFilter(colorMatrix);
         obj.filters = [colorFlilter];
+    }
+
+    /**
+     * 设置缩放大小
+     * @param obj
+     */
+    export function getscalex(): number
+    {
+        var scale: number = 1;
+        if(GameConfig._i().getWH() > GameConfig.DesignWidth)
+        {
+            scale = GameConfig._i().getWH()/GameConfig.DesignWidth;
+        }
+
+        return scale;
+    }
+    export function getscaley(): number
+    {
+        var scale: number = 1;
+        if(GameConfig._i().getSH() > GameConfig.DesignHeight)
+        {
+            scale = GameConfig._i().getSH()/GameConfig.DesignHeight;
+        }
+
+        return scale;
+    }
+
+    export function relativepos(obj1:any,obj2:any,posx:number,posy:number,anx:boolean = false)
+    {
+        if(!anx)
+        {
+            obj1.x = obj2.x-obj2.width/2 + posx;
+            obj1.y = obj2.y-obj2.height/2 + posy;
+        }
+
     }
 
 }

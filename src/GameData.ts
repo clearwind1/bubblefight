@@ -2,6 +2,8 @@
  * Created by pior on 16/11/17.
  */
 
+enum SoundName{clicksound,startsound,putbombsound,bombsound,diesound,startgamebgm,gamebgm};
+
 class GameData {
 
     public static AIROLENUM: number = 4;
@@ -9,6 +11,9 @@ class GameData {
     public GameOver: boolean = false;
     public isLoadingend: boolean = false;
     public isgetInfoend: boolean = false;
+    public isSoundOn: boolean[] = [true,true];
+
+    public gamesound: MySound[] = [];
 
     public UserInfo:Object = {
         'ID':'',

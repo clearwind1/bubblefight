@@ -113,9 +113,10 @@ var GameUtil;
             this.btnImg.scaleY = scaleY;
         };
         p.TouchBegin = function (event) {
-            var sound = RES.getRes('clicksound_ogg');
-            sound.play(0, 1);
+            //var sound: egret.Sound = RES.getRes('clicksound_ogg');
+            //sound.play(0,1);
             //console.log("touchbegin");
+            GameData._i().gamesound[SoundName.clicksound].play(0, 1);
             if (this.btnImg != null) {
                 this.btnImg.setNewTexture(this.menuSelectTexture);
             }
