@@ -7,7 +7,7 @@ class SharePage extends egret.DisplayObjectContainer
 {
 
     private desctext: string = '盛讯小游戏--泡泡大作战';
-    private newurl: string = 'http://bubblefight.h5.gamexun.com/';
+    private newurl: string = 'http://bubblefightv02.h5.gamexun.com/';
 
     public constructor()
     {
@@ -79,7 +79,7 @@ class SharePage extends egret.DisplayObjectContainer
         var bodyMenuShareTimeline = new BodyMenuShareTimeline();
         bodyMenuShareTimeline.title = this.desctext;
         bodyMenuShareTimeline.link = this.newurl;
-        bodyMenuShareTimeline.imgUrl = 'http://bubblefight.h5.gamexun.com/shareicon.png';
+        bodyMenuShareTimeline.imgUrl = 'http://bubblefightv02.h5.gamexun.com/shareicon.png';
         bodyMenuShareTimeline.trigger = ()=> {
             // alert('用户点击分享到朋友圈');
         };
@@ -112,7 +112,7 @@ class SharePage extends egret.DisplayObjectContainer
         bodyMenuShareAppMessage.title = '盛讯小游戏--泡泡大作战';
         bodyMenuShareAppMessage.desc = this.desctext;
         bodyMenuShareAppMessage.link = this.newurl;
-        bodyMenuShareAppMessage.imgUrl = 'http://bubblefight.h5.gamexun.com/shareicon.png';
+        bodyMenuShareAppMessage.imgUrl = 'http://bubblefightv02.h5.gamexun.com/shareicon.png';
         bodyMenuShareAppMessage.trigger = ()=> {
             // alert('用户点击发送给朋友');
         };

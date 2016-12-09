@@ -69,7 +69,7 @@ class StartGameScene extends GameUtil.BassPanel
         {
             //alert('shareopen');
             SharePage._i().getSignPackage();
-            SharePage._i().setNewUrl('http://bubblefight.h5.gamexun.com/?shareopenid='+GameData._i().UserInfo['openid']);
+            SharePage._i().setNewUrl('http://bubblefightv02.h5.gamexun.com/?shareopenid='+GameData._i().UserInfo['openid']);
         }
 
         if(GameData._i().UserInfo['prizecount'] != 0)
@@ -92,7 +92,7 @@ class StartGameScene extends GameUtil.BassPanel
         if(data['code']==1)
         {
             SharePage._i().getSignPackage();
-            SharePage._i().setNewUrl('http://bubblefight.h5.gamexun.com/?shareopenid='+GameData._i().UserInfo['openid']);
+            SharePage._i().setNewUrl('http://bubblefightv02.h5.gamexun.com/?shareopenid='+GameData._i().UserInfo['openid']);
         }
         else
         {
