@@ -7,6 +7,7 @@ var Obstrution = (function (_super) {
         if (istool === void 0) { istool = true; }
         _super.call(this, texture, posx, posy);
         this.isTool = istool;
+        //this.pixelHitTest = true;
     }
     var d = __define,c=Obstrution,p=c.prototype;
     return Obstrution;

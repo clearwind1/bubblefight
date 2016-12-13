@@ -14,8 +14,8 @@ var StartGameScene = (function (_super) {
     }
     var d = __define,c=StartGameScene,p=c.prototype;
     p.init = function () {
-        this.soundswitch[0] = GameUtil.GameConfig._i().bgamesound;
-        this.soundswitch[1] = GameUtil.GameConfig._i().bgamemusic;
+        this.soundswitch[1] = GameUtil.GameConfig._i().bgamesound;
+        this.soundswitch[0] = GameUtil.GameConfig._i().bgamemusic;
         this.showbg();
         //console.log('stagewidth=====',this.mStageW,'stageheight======',this.mStageH);
     };
@@ -53,7 +53,7 @@ var StartGameScene = (function (_super) {
         else {
             //alert('shareopen');
             SharePage._i().getSignPackage();
-            SharePage._i().setNewUrl('http://bubblefight.h5.gamexun.com/?shareopenid=' + GameData._i().UserInfo['openid']);
+            SharePage._i().setNewUrl('http://bubblefightv02.h5.gamexun.com/?shareopenid=' + GameData._i().UserInfo['openid']);
         }
         if (GameData._i().UserInfo['prizecount'] != 0) {
             this.luckact();
@@ -69,7 +69,7 @@ var StartGameScene = (function (_super) {
     p.setshareresult = function (data) {
         if (data['code'] == 1) {
             SharePage._i().getSignPackage();
-            SharePage._i().setNewUrl('http://bubblefight.h5.gamexun.com/?shareopenid=' + GameData._i().UserInfo['openid']);
+            SharePage._i().setNewUrl('http://bubblefightv02.h5.gamexun.com/?shareopenid=' + GameData._i().UserInfo['openid']);
         }
         else {
             console.log(data['msg']);
@@ -697,8 +697,8 @@ var StartGameScene = (function (_super) {
         swilog.x += (this.soundswitch[type] ? 72 : -72);
         var tex = this.soundswitch[type] ? 'settingswitchon_png' : 'settingswitchoff_png';
         this.switchbtn[type].setButtonTexture(tex, tex);
-        GameUtil.GameConfig._i().bgamesound = this.soundswitch[0];
-        GameUtil.GameConfig._i().bgamemusic = this.soundswitch[1];
+        GameUtil.GameConfig._i().bgamesound = this.soundswitch[1];
+        GameUtil.GameConfig._i().bgamemusic = this.soundswitch[0];
         var volume = GameUtil.GameConfig._i().bgamemusic ? 1 : 0;
         GameData._i().gamesound[SoundName.startgamebgm].setvolume(volume);
     };

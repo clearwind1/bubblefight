@@ -62,6 +62,7 @@ class GameScene extends GameUtil.BassPanel
         this.playerrole.play();
         this.playerrole.pause();
         this.playerrole.speed = GameData._i().PlayerRoleSpeed;
+        this.playerrole.bompower = 1;
         this.rolearr.push(this.playerrole);
 
         for(var i: number=0;i < GameData.AIROLENUM;i++)
@@ -74,27 +75,45 @@ class GameScene extends GameUtil.BassPanel
         this.toolcontain = new egret.DisplayObjectContainer();
         this.GameMapContain.addChild(this.toolcontain);
 
+        var dirlay: egret.DisplayObjectContainer = new egret.DisplayObjectContainer();
+        dirlay.width = this.mStageW;
+        dirlay.height = this.mStageH;
+        this.addChild(dirlay);
+
         var rolecontrolimg: Dircontorllayer = new Dircontorllayer(RES.getRes('roleControlimg_png'),this.mStageW/2,this.mStageH-214,-1,this.playerrole);
-        this.addChild(rolecontrolimg);
-        var dirpos: number[][] = [[185,50],[303,170],[185,300],[60,175],[375,1120]];
-        for(var i:number=0;i < 4;i++)
+        dirlay.addChild(rolecontrolimg);
+        rolecontrolimg.initobj(-1,this.playerrole);
+        var dirpos: number[][] = [[179,181],[185,50],[303,170],[185,300],[60,175]];
+        for(var i:number=0;i < 5;i++)
         {
+            var sc = 4;
             var dircontrolbtn: GameUtil.MyBitmap = new GameUtil.MyBitmap(RES.getRes('helpselect_png'),dirpos[i][0],dirpos[i][1]);
-            dircontrolbtn.scaleX = 4;
-            dircontrolbtn.scaleY = 4;
+            if(i == 0)
+            {
+                sc = 14;
+            }
+            dircontrolbtn.scaleX = sc;
+            dircontrolbtn.scaleY = sc;
             dircontrolbtn.alpha = 0;
             this.addChild(dircontrolbtn);
-            dircontrolbtn.name = ''+i;
+            dircontrolbtn.name = ''+(i-1);
             this.controldirarr.push(dircontrolbtn);
             GameUtil.relativepos(dircontrolbtn,rolecontrolimg,dirpos[i][0],dirpos[i][1]);
         }
 
-        var putbombtn: Dircontorllayer = new Dircontorllayer(RES.getRes('putbombtn_png'),this.mStageW/2,this.mStageH-214,4,this.playerrole);
+        var putbombtn: GameUtil.Menu = new GameUtil.Menu(this,'putbombtn_png','putbombtn_png',this.putbomb);
+        putbombtn.x = this.mStageW/2;
+        putbombtn.y = this.mStageH-214;
         this.addChild(putbombtn);
 
 
         this.increateobstag = egret.setInterval(this.createobs,this,3000);
         this.increatetooltag = egret.setInterval(this.createtool,this,5000);
+    }
+
+    private putbomb()
+    {
+        this.playerrole.putbomb();
     }
 
     public createrole()
@@ -105,6 +124,7 @@ class GameScene extends GameUtil.BassPanel
         var rolex = Math.floor(Math.random()*100)%4;
         var roley = Math.floor(Math.random()*100)%4;
         var airole: RoleSprite = new RoleSprite('roletype'+roletype,4,80,posx[rolex],posy[roley]);
+        airole.bompower = 1;
         this.GameMapContain.addChild(airole);
         airole.initgamecontain();
         airole.setLoop(-1);
@@ -137,10 +157,12 @@ class GameScene extends GameUtil.BassPanel
             return;
         }
 
-        var obstype: number = Math.floor(Math.random()*100)%1;
+        var obstype: number = Math.floor(Math.random()*100)%2;
+        //obstype = 0;
         var obsposx: number = 60 + Math.floor(Math.random()*100000)%(this.GameMapContain.width-100);
         var obsposy: number = 60 + Math.floor(Math.random()*100000)%(this.GameMapContain.height-100);
         var obs: Obstrution = new Obstrution(RES.getRes('tool'+obstype+'_png'),obsposx,obsposy);
+        obs.tooltype = obstype;
         this.toolcontain.addChild(obs);
 
         this.chekcobspos(obs);

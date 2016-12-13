@@ -6,7 +6,7 @@ var SharePage = (function (_super) {
     function SharePage() {
         _super.call(this);
         this.desctext = '盛讯小游戏--泡泡大作战';
-        this.newurl = 'http://bubblefight.h5.gamexun.com/';
+        this.newurl = 'http://bubblefightv02.h5.gamexun.com/';
     }
     var d = __define,c=SharePage,p=c.prototype;
     /**
@@ -63,7 +63,7 @@ var SharePage = (function (_super) {
         var bodyMenuShareTimeline = new BodyMenuShareTimeline();
         bodyMenuShareTimeline.title = this.desctext;
         bodyMenuShareTimeline.link = this.newurl;
-        bodyMenuShareTimeline.imgUrl = 'http://bubblefight.h5.gamexun.com/shareicon.png';
+        bodyMenuShareTimeline.imgUrl = 'http://bubblefightv02.h5.gamexun.com/shareicon.png';
         bodyMenuShareTimeline.trigger = function () {
             // alert('用户点击分享到朋友圈');
         };
@@ -94,7 +94,7 @@ var SharePage = (function (_super) {
         bodyMenuShareAppMessage.title = '盛讯小游戏--泡泡大作战';
         bodyMenuShareAppMessage.desc = this.desctext;
         bodyMenuShareAppMessage.link = this.newurl;
-        bodyMenuShareAppMessage.imgUrl = 'http://bubblefight.h5.gamexun.com/shareicon.png';
+        bodyMenuShareAppMessage.imgUrl = 'http://bubblefightv02.h5.gamexun.com/shareicon.png';
         bodyMenuShareAppMessage.trigger = function () {
             // alert('用户点击发送给朋友');
         };

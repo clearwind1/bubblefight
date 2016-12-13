@@ -34,7 +34,7 @@ var GameUtil;
             GameUtil.Http.getinstance().send(param, "/paopao/adduserinfo", this.setplayerinfo, this);
         };
         p.loadsound = function () {
-            var soundname = ['clicksound.ogg', 'startsound.ogg', 'putbombsound.ogg', 'bombsound.ogg', 'diesound.ogg', 'startgamebgm.ogg', 'gamebgm.ogg'];
+            var soundname = ['clicksound.mp3', 'startsound.mp3', 'putbombsound.mp3', 'bombsound.mp3', 'diesound.mp3', 'startgamebgm.mp3', 'gamebgm.mp3'];
             for (var i = 0; i < soundname.length; i++) {
                 GameData._i().gamesound[i] = new MySound(soundname[i]);
             }

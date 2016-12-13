@@ -7,6 +7,7 @@ class RoleSprite extends GameUtil.Animation
     private rolemovedir: DIRECTION;
     private intage: number;
     public speed: number;
+    public bompower: number;
     private isAI: boolean;
     private aiIntag: number;
 
@@ -19,6 +20,7 @@ class RoleSprite extends GameUtil.Animation
     {
         super(textureName,totalNumber,frameRate,posx,posy);
         this.isAI = isai;
+        //this.pixelHitTest = true;
 
         if(this.isAI)
         {
@@ -99,13 +101,20 @@ class RoleSprite extends GameUtil.Animation
 
         for(var i:number=0;i < toolcontain.numChildren;i++)
         {
-            var obs = toolcontain.getChildAt(i);
-            var rect1 = this.getrect(obs);
-            var rect2 = this.getrect(this);
+            var tool = <Obstrution>(toolcontain.getChildAt(i));
+            var rect1 = this.getrect(tool,1,1);
+            var rect2 = this.getrect(this,1,1);
 
             if(rect1.intersects(rect2)) {
-                toolcontain.removeChild(obs);
-                this.speed += 5;
+                if(tool.tooltype == 1)
+                {
+                    this.speed += 5;
+                }
+                else
+                {
+                    this.bompower += 0.2;
+                }
+                toolcontain.removeChild(tool);
             }
         }
 
@@ -115,9 +124,8 @@ class RoleSprite extends GameUtil.Animation
         {
             //console.log('obschild=====',obscontain.getChildAt(i));
             var obs = obscontain.getChildAt(i);
-            var rect1 = this.getrect(obs);
-            var rect2 = this.getrect(this);
-
+            var rect1 = this.getrect(obs,0.9,0.9);
+            var rect2 = this.getrect(this,1,1);
             if(rect1.intersects(rect2)){
                 if(obs.y > this.y){
                     dirbool[DIRECTION.DOWN] = true;
@@ -255,7 +263,7 @@ class RoleSprite extends GameUtil.Animation
         for(var i:number=0;i < gamescene.bombarr.length;i++)
         {
             var rebom = gamescene.bombarr[i];
-            var rect1 = this.getrect(rebom);
+            var rect1 = this.getrect(rebom,1,1);
             if(rect1.contains(this.x,this.y))
             {
                 return;
@@ -263,6 +271,7 @@ class RoleSprite extends GameUtil.Animation
         }
 
         var bomb: BombSprite = new BombSprite(RES.getRes('shopselftool_'+GameData._i().PlayerToolType+'_png'),this.x,this.y,!this.isAI);
+        bomb.bompower = this.bompower;
         gamescene.bombarr.push(bomb);
         gamecontain.addChild(bomb);
         bomb.initdata();
@@ -329,25 +338,21 @@ class RoleSprite extends GameUtil.Animation
         }
     }
 
-    private getrect(obj:any): egret.Rectangle
+    private getrect(obj:any,scx:number,scy:number): egret.Rectangle
     {
-        var sourcesc = obj.scaleY;
-        var newsc = sourcesc-0.1;
-
-        obj.scaleX = newsc;
-        obj.scaleY = newsc;
         var rect: egret.Rectangle = obj.getBounds();
-        rect.x = obj.x - obj.width/2;
-        rect.y = obj.y - obj.height/2;
-
-        obj.scaleX = sourcesc;
-        obj.scaleY = sourcesc;
+        rect.x = obj.x - obj.width*scx/2;
+        rect.y = obj.y - obj.height*scy/2;
+        rect.width = obj.width*scx;
+        rect.height = obj.height*scy;
 
         return rect;
     }
 
     public reset()
     {
+        this.speed = GameData._i().PlayerRoleSpeed;
+        this.bompower = 1;
         if(this.isAI)
         {
             this.aiIntag = egret.setInterval(this.aiRun,this,1000);

@@ -13,8 +13,8 @@ class BombSprite extends GameUtil.MyBitmap
     private parcontain: egret.DisplayObjectContainer;
 
     public isbomed: boolean = false;
-
     public isplayerb: boolean = false;
+    public bompower: number = 1;
 
     public constructor(texture:egret.Texture,posx:number,posy:number,isplayer:boolean)
     {
@@ -64,8 +64,8 @@ class BombSprite extends GameUtil.MyBitmap
         gamecontain.addChild(this.bombefp);
         this.gamecontain.bomeffectarr.push(this.bombefp);
 
-        egret.Tween.get(this.bombefl).to({scaleX:1},200);
-        egret.Tween.get(this.bombefp).to({scaleY:1},200).call(this.checkhit,this);
+        egret.Tween.get(this.bombefl).to({scaleX:this.bompower},200);
+        egret.Tween.get(this.bombefp).to({scaleY:this.bompower},200).call(this.checkhit,this);
 
     }
 
@@ -101,9 +101,10 @@ class BombSprite extends GameUtil.MyBitmap
         {
             var bom: BombSprite = <BombSprite>(gamecontain.bombarr[i]);
             //console.log('bom====',bom);
-            var rect1 = this.getrect(bom);
-            var rect2 = this.getrect(this.bombefl);
-            var rect3 = this.getrect(this.bombefp);
+            var rect1 = this.getrect(bom,1,1);
+            var rect2 = this.getrect(this.bombefl,this.bombefl.scaleX,this.bombefl.scaleY);
+           // console.log('bombefl=====',this.bombefl);
+            var rect3 = this.getrect(this.bombefp,this.bombefp.scaleX,this.bombefp.scaleY);
             //console.log('this=====',this);
             if((rect1.intersects(rect2) || rect1.intersects(rect3))){
                 //if(this.gamecontain.readybomarr.indexOf(bom) > 0){
@@ -114,9 +115,9 @@ class BombSprite extends GameUtil.MyBitmap
         }
 
         for(var i:number=0;i < gamecontain.rolearr.length;i++){
-            var rect1 = this.getrect(gamecontain.rolearr[i]);
-            var rect2 = this.getrect(this.bombefl);
-            var rect3 = this.getrect(this.bombefp);
+            var rect1 = this.getrect(gamecontain.rolearr[i],0.9,0.9);
+            var rect2 = this.getrect(this.bombefl,this.bombefl.scaleX,this.bombefl.scaleY);
+            var rect3 = this.getrect(this.bombefp,this.bombefp.scaleX,this.bombefp.scaleY);
             var role = gamecontain.rolearr[i];
             if(!role.isSuperstate && (rect1.intersects(rect2) || rect1.intersects(rect3))){
                 gamecontain.rolearr[i].die(this.isplayerb);
@@ -143,11 +144,13 @@ class BombSprite extends GameUtil.MyBitmap
 
     }
 
-    private getrect(obj:any): egret.Rectangle
+    private getrect(obj:any,scx:number,scy:number): egret.Rectangle
     {
         var rect: egret.Rectangle = obj.getBounds();
-        rect.x = obj.x - obj.width/2;
-        rect.y = obj.y - obj.height/2;
+        rect.x = obj.x - obj.width*scx/2;
+        rect.y = obj.y - obj.height*scy/2;
+        rect.width = obj.width*scx;
+        rect.height = obj.height*scy;
 
         return rect;
     }

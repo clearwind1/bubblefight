@@ -40,10 +40,10 @@ var Main = (function (_super) {
         console.log("openid======", GameData._i().UserInfo['openid']);
         if (!GameUtil.getQueryString('openid')) {
             if (GameUtil.getQueryString('shareopenid')) {
-                window.location.href = 'http://api.h5.gamexun.com/weixin/auth?game_redirecturl=http://bubblefight.h5.gamexun.com/&shareopenid=' + GameUtil.getQueryString('shareopenid');
+                window.location.href = 'http://api.h5.gamexun.com/weixin/auth?game_redirecturl=http://bubblefightv02.h5.gamexun.com/&shareopenid=' + GameUtil.getQueryString('shareopenid');
             }
             else {
-                window.location.href = 'http://api.h5.gamexun.com/weixin/auth?game_redirecturl=http://bubblefight.h5.gamexun.com/';
+                window.location.href = 'http://api.h5.gamexun.com/weixin/auth?game_redirecturl=http://bubblefightv02.h5.gamexun.com/';
             }
         }
         else {

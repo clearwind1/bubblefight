@@ -48,7 +48,7 @@ module GameUtil
         }
         private loadsound()
         {
-            var soundname: string[] = ['clicksound.ogg','startsound.ogg','putbombsound.ogg','bombsound.ogg','diesound.ogg','startgamebgm.ogg','gamebgm.ogg'];
+            var soundname: string[] = ['clicksound.mp3','startsound.mp3','putbombsound.mp3','bombsound.mp3','diesound.mp3','startgamebgm.mp3','gamebgm.mp3'];
             for(var i:number=0;i < soundname.length;i++)
             {
                 GameData._i().gamesound[i] = new MySound(soundname[i]);

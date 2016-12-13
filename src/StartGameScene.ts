@@ -20,8 +20,8 @@ class StartGameScene extends GameUtil.BassPanel
 
     public init()
     {
-        this.soundswitch[0] = GameUtil.GameConfig._i().bgamesound;
-        this.soundswitch[1] = GameUtil.GameConfig._i().bgamemusic;
+        this.soundswitch[1] = GameUtil.GameConfig._i().bgamesound;
+        this.soundswitch[0] = GameUtil.GameConfig._i().bgamemusic;
         this.showbg();
 
         //console.log('stagewidth=====',this.mStageW,'stageheight======',this.mStageH);
@@ -888,8 +888,8 @@ class StartGameScene extends GameUtil.BassPanel
         var tex: string = this.soundswitch[type] ? 'settingswitchon_png':'settingswitchoff_png';
         this.switchbtn[type].setButtonTexture(tex,tex);
 
-        GameUtil.GameConfig._i().bgamesound = this.soundswitch[0];
-        GameUtil.GameConfig._i().bgamemusic = this.soundswitch[1];
+        GameUtil.GameConfig._i().bgamesound = this.soundswitch[1];
+        GameUtil.GameConfig._i().bgamemusic = this.soundswitch[0];
 
         var volume = GameUtil.GameConfig._i().bgamemusic ? 1:0;
         GameData._i().gamesound[SoundName.startgamebgm].setvolume(volume);

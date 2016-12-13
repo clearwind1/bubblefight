@@ -7,6 +7,7 @@ var BombSprite = (function (_super) {
         _super.call(this, texture, posx, posy);
         this.isbomed = false;
         this.isplayerb = false;
+        this.bompower = 1;
         this.start();
         this.isplayerb = isplayer;
     }
@@ -42,8 +43,8 @@ var BombSprite = (function (_super) {
         this.bombefp.$setScaleY(0);
         gamecontain.addChild(this.bombefp);
         this.gamecontain.bomeffectarr.push(this.bombefp);
-        egret.Tween.get(this.bombefl).to({ scaleX: 1 }, 200);
-        egret.Tween.get(this.bombefp).to({ scaleY: 1 }, 200).call(this.checkhit, this);
+        egret.Tween.get(this.bombefl).to({ scaleX: this.bompower }, 200);
+        egret.Tween.get(this.bombefp).to({ scaleY: this.bompower }, 200).call(this.checkhit, this);
     };
     p.checkhit = function () {
         var gamecontain = this.gamecontain;
@@ -68,9 +69,10 @@ var BombSprite = (function (_super) {
         for (var i = 0; i < gamecontain.bombarr.length; i++) {
             var bom = (gamecontain.bombarr[i]);
             //console.log('bom====',bom);
-            var rect1 = this.getrect(bom);
-            var rect2 = this.getrect(this.bombefl);
-            var rect3 = this.getrect(this.bombefp);
+            var rect1 = this.getrect(bom, 1, 1);
+            var rect2 = this.getrect(this.bombefl, this.bombefl.scaleX, this.bombefl.scaleY);
+            // console.log('bombefl=====',this.bombefl);
+            var rect3 = this.getrect(this.bombefp, this.bombefp.scaleX, this.bombefp.scaleY);
             //console.log('this=====',this);
             if ((rect1.intersects(rect2) || rect1.intersects(rect3))) {
                 //if(this.gamecontain.readybomarr.indexOf(bom) > 0){
@@ -80,9 +82,9 @@ var BombSprite = (function (_super) {
             }
         }
         for (var i = 0; i < gamecontain.rolearr.length; i++) {
-            var rect1 = this.getrect(gamecontain.rolearr[i]);
-            var rect2 = this.getrect(this.bombefl);
-            var rect3 = this.getrect(this.bombefp);
+            var rect1 = this.getrect(gamecontain.rolearr[i], 0.9, 0.9);
+            var rect2 = this.getrect(this.bombefl, this.bombefl.scaleX, this.bombefl.scaleY);
+            var rect3 = this.getrect(this.bombefp, this.bombefp.scaleX, this.bombefp.scaleY);
             var role = gamecontain.rolearr[i];
             if (!role.isSuperstate && (rect1.intersects(rect2) || rect1.intersects(rect3))) {
                 gamecontain.rolearr[i].die(this.isplayerb);
@@ -105,10 +107,12 @@ var BombSprite = (function (_super) {
         //var readybindex = gamecontain.readybomarr.indexOf(this);
         //gamecontain.readybomarr.splice(readybindex,1);
     };
-    p.getrect = function (obj) {
+    p.getrect = function (obj, scx, scy) {
         var rect = obj.getBounds();
-        rect.x = obj.x - obj.width / 2;
-        rect.y = obj.y - obj.height / 2;
+        rect.x = obj.x - obj.width * scx / 2;
+        rect.y = obj.y - obj.height * scy / 2;
+        rect.width = obj.width * scx;
+        rect.height = obj.height * scy;
         return rect;
     };
     return BombSprite;

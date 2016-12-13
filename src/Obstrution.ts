@@ -5,10 +5,12 @@
 class Obstrution extends GameUtil.MyBitmap
 {
     private isTool: boolean;
+    public tooltype: number;
     public constructor(texture:egret.Texture,posx:number,posy:number,istool:boolean = true)
     {
         super(texture,posx,posy);
         this.isTool = istool;
+        //this.pixelHitTest = true;
     }
 
 }
