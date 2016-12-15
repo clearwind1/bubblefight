@@ -143,7 +143,7 @@ var GameUtil;
             else {
                 var result = data['result'];
                 console.log(result);
-                GameData._i().UserInfo['ID'] = result['id'];
+                GameData._i().UserInfo['ID'] = 'SXD_' + result['id'];
                 GameData._i().UserInfo['nickname'] = result['nickname'];
                 GameData._i().UserInfo['gender'] = result['gender'];
                 GameData._i().UserInfo['roletype'] = result['roletype'];

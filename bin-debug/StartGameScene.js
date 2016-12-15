@@ -14,6 +14,17 @@ var StartGameScene = (function (_super) {
     }
     var d = __define,c=StartGameScene,p=c.prototype;
     p.init = function () {
+        //var rankbg: GameUtil.MyBitmap = new GameUtil.MyBitmap(RES.getRes('rankbg_png'),this.mStageW/2,this.mStageH/2);
+        //this.addChild(rankbg);
+        //this.sourcefilter = rankbg.$getFilters();
+        //var self:any = this;
+        //egret.Tween.get(rankbg,{loop:true}).to({filters:GameUtil.changeLight()},500).to({filters:[self.sourcefilter]},500);
+        //egret.setTimeout(function(){
+        //    //console.log('tw===',tw);
+        //    egret.Tween.removeTweens(rankbg);
+        //},this,3000);
+        //
+        //return;
         this.soundswitch[1] = GameUtil.GameConfig._i().bgamesound;
         this.soundswitch[0] = GameUtil.GameConfig._i().bgamemusic;
         this.showbg();
@@ -26,11 +37,21 @@ var StartGameScene = (function (_super) {
         GameData._i().UserInfo['nickname'] = GameUtil.getQueryString('nickname');
         this.othercontain = null;
         this.playcontain = null;
+        //var fillbg: egret.Shape = GameUtil.createRect(0,0,this.mStageW,this.mStageH,1,0x4cd9e6);
+        //this.addChild(fillbg);
         var bg = new GameUtil.MyBitmap(RES.getRes('startgamebg_png'), 0, 0);
         bg.setanchorOff(0, 0);
+        //bg.scale9Grid = new egret.Rectangle(750,1334,0,0);
         bg.width = this.mStageW;
         bg.height = this.mStageH;
         this.addChild(bg);
+        //var renderTexture:egret.RenderTexture = new egret.RenderTexture();
+        //renderTexture.drawToTexture(bg, new egret.Rectangle(0, 0, 10, bg.height));
+        //var bmp: egret.Bitmap = new egret.Bitmap();
+        //bmp.texture = renderTexture;
+        //this.addChild(bmp);
+        //bmp.fillMode = egret.BitmapFillMode.REPEAT;
+        //bmp.width = (this.mStageW-bg.width)/2;
         var scalex = GameUtil.getscalex();
         //界面按钮
         var btnname = ['startgamebtn_png', 'rankbtn_png', 'helpbtn_png', 'luckactbtn_png', 'personbtn_png', 'settingbtn_png', 'sharebtn_png', 'shopbtn_png'];
@@ -177,16 +198,16 @@ var StartGameScene = (function (_super) {
         this.helpbgbtn.addEventListener(egret.TouchEvent.TOUCH_END, function (evt) {
             var endx = evt.stageX;
             if (endx - startx >= 100) {
-                self.helpcurtag = (++self.helpcurtag > 2) ? 0 : self.helpcurtag;
+                self.helpcurtag = (++self.helpcurtag > 3) ? 0 : self.helpcurtag;
             }
             else if (startx - endx > 100) {
-                self.helpcurtag = (--self.helpcurtag < 0) ? 2 : self.helpcurtag;
+                self.helpcurtag = (--self.helpcurtag < 0) ? 3 : self.helpcurtag;
             }
             self.helpbgbtn.setNewTexture(RES.getRes('helpbg_' + self.helpcurtag + '_png'));
             GameUtil.relativepos(self.helpselect, self.helpbgbtn, 300 + 55 * self.helpcurtag, 290);
         }, this);
         this.othercontain.addChild(this.helpbgbtn);
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < 4; i++) {
             var helppagepoint = new GameUtil.MyBitmap(RES.getRes('helppagepoint_png'), 367 + 55 * i, 800);
             this.othercontain.addChild(helppagepoint);
             GameUtil.relativepos(helppagepoint, this.helpbgbtn, 300 + 55 * i, 290);

@@ -18,7 +18,7 @@ var BombSprite = (function (_super) {
     };
     p.start = function () {
         var self = this;
-        this.tw = egret.Tween.get(this, { loop: true }).to({ scaleX: 0.9, scaleY: 0.9 }).to({ scaleX: 1, scaleY: 1 }, 400);
+        egret.Tween.get(this, { loop: true }).to({ scaleX: 0.9, scaleY: 0.9 }).to({ scaleX: 1, scaleY: 1 }, 400);
         this.titag = egret.setTimeout(self.bomb, this, 3000);
     };
     p.bomb = function () {
@@ -27,8 +27,7 @@ var BombSprite = (function (_super) {
         //this.gamecontain.readybomarr.push(this);
         GameData._i().gamesound[SoundName.bombsound].play(0, 1);
         egret.clearTimeout(this.titag);
-        this.tw.loop = false;
-        egret.Tween.removeTweens(this.tw);
+        egret.Tween.removeTweens(this);
         this.visible = false;
         this.parcontain.removeChild(this);
         var index = this.gamecontain.bombarr.indexOf(this);
@@ -55,8 +54,7 @@ var BombSprite = (function (_super) {
                 return;
             }
             egret.clearTimeout(this.titag);
-            this.tw.loop = false;
-            egret.Tween.removeTweens(this.tw);
+            egret.Tween.removeTweens(this);
             this.parcontain.removeChild(this.bombefl);
             this.parcontain.removeChild(this.bombefp);
             var lindex = gamecontain.bomeffectarr.indexOf(this.bombefl);

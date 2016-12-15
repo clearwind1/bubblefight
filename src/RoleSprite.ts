@@ -15,6 +15,7 @@ class RoleSprite extends GameUtil.Animation
     private parcontain: egret.DisplayObjectContainer;
 
     public isSuperstate: boolean = false;
+    public blight: boolean = false;
 
     public constructor(textureName:string,totalNumber:number,frameRate:number,posx:number,posy:number,isai:boolean = true)
     {
@@ -106,6 +107,25 @@ class RoleSprite extends GameUtil.Animation
             var rect2 = this.getrect(this,1,1);
 
             if(rect1.intersects(rect2)) {
+
+                if(!this.blight)
+                {
+                    this.blight = true;
+                    var selfrole = this;
+                    var sourcefilet = this.$getFilters();
+                    //this.filters = GameUtil.changeLight();
+                    //egret.setTimeout(s=>{selfrole.filters = sourcefilet},this,300);
+                    var loopcount = 3;
+                    egret.Tween.get(selfrole,{loop:true}).to({filters:GameUtil.changeLight()},300).to({filters:[sourcefilet]},400).call(function(){
+                        loopcount--;
+                        if(loopcount == 0)
+                        {
+                            selfrole.blight = false;
+                            egret.Tween.removeTweens(selfrole);
+                        }
+                    },selfrole);
+                }
+
                 if(tool.tooltype == 1)
                 {
                     this.speed += 5;
@@ -165,6 +185,9 @@ class RoleSprite extends GameUtil.Animation
                         gamecontain.y = (gamecontain.y+speed >= 0) ? 0:(gamecontain.y+speed);
                         this.y -= speed;
                     }
+
+                    this.gamecontain.setPlayerIDpos(this.x,this.y - this.height/2 - 30);
+
                 }
 
                 break;
@@ -189,6 +212,8 @@ class RoleSprite extends GameUtil.Animation
                         gamecontain.x = (gamecontain.x-speed <= GameUtil.GameConfig._i().getWH()-gamecontain.width) ? (GameUtil.GameConfig._i().getWH()-gamecontain.width):(gamecontain.x-speed);
                         this.x += speed;
                     }
+
+                    this.gamecontain.setPlayerIDpos(this.x,this.y - this.height/2 - 30);
                 }
 
                 break;
@@ -213,6 +238,8 @@ class RoleSprite extends GameUtil.Animation
                         gamecontain.y = (gamecontain.y-speed <= GameUtil.GameConfig._i().getSH()-gamecontain.height) ? GameUtil.GameConfig._i().getSH()-gamecontain.height:(gamecontain.y-speed);
                         this.y += speed;
                     }
+
+                    this.gamecontain.setPlayerIDpos(this.x,this.y - this.height/2 - 30);
                 }
 
                 break;
@@ -238,6 +265,8 @@ class RoleSprite extends GameUtil.Animation
                         this.x -= speed;
                     }
                     //console.log('gamecontainx====',gamecontain.x,'gamecontainy======',gamecontain.y);
+
+                    this.gamecontain.setPlayerIDpos(this.x,this.y - this.height/2 - 30);
                 }
 
                 break;

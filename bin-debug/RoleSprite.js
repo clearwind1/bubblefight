@@ -7,6 +7,7 @@ var RoleSprite = (function (_super) {
         if (isai === void 0) { isai = true; }
         _super.call(this, textureName, totalNumber, frameRate, posx, posy);
         this.isSuperstate = false;
+        this.blight = false;
         this.isAI = isai;
         //this.pixelHitTest = true;
         if (this.isAI) {
@@ -70,6 +71,21 @@ var RoleSprite = (function (_super) {
             var rect1 = this.getrect(tool, 1, 1);
             var rect2 = this.getrect(this, 1, 1);
             if (rect1.intersects(rect2)) {
+                if (!this.blight) {
+                    this.blight = true;
+                    var selfrole = this;
+                    var sourcefilet = this.$getFilters();
+                    //this.filters = GameUtil.changeLight();
+                    //egret.setTimeout(s=>{selfrole.filters = sourcefilet},this,300);
+                    var loopcount = 3;
+                    egret.Tween.get(selfrole, { loop: true }).to({ filters: GameUtil.changeLight() }, 300).to({ filters: [sourcefilet] }, 400).call(function () {
+                        loopcount--;
+                        if (loopcount == 0) {
+                            selfrole.blight = false;
+                            egret.Tween.removeTweens(selfrole);
+                        }
+                    }, selfrole);
+                }
                 if (tool.tooltype == 1) {
                     this.speed += 5;
                 }
@@ -117,6 +133,7 @@ var RoleSprite = (function (_super) {
                         gamecontain.y = (gamecontain.y + speed >= 0) ? 0 : (gamecontain.y + speed);
                         this.y -= speed;
                     }
+                    this.gamecontain.setPlayerIDpos(this.x, this.y - this.height / 2 - 30);
                 }
                 break;
             case DIRECTION.RIGHT:
@@ -135,6 +152,7 @@ var RoleSprite = (function (_super) {
                         gamecontain.x = (gamecontain.x - speed <= GameUtil.GameConfig._i().getWH() - gamecontain.width) ? (GameUtil.GameConfig._i().getWH() - gamecontain.width) : (gamecontain.x - speed);
                         this.x += speed;
                     }
+                    this.gamecontain.setPlayerIDpos(this.x, this.y - this.height / 2 - 30);
                 }
                 break;
             case DIRECTION.DOWN:
@@ -153,6 +171,7 @@ var RoleSprite = (function (_super) {
                         gamecontain.y = (gamecontain.y - speed <= GameUtil.GameConfig._i().getSH() - gamecontain.height) ? GameUtil.GameConfig._i().getSH() - gamecontain.height : (gamecontain.y - speed);
                         this.y += speed;
                     }
+                    this.gamecontain.setPlayerIDpos(this.x, this.y - this.height / 2 - 30);
                 }
                 break;
             case DIRECTION.LEFT:
@@ -171,6 +190,8 @@ var RoleSprite = (function (_super) {
                         gamecontain.x = (gamecontain.x + speed >= 0) ? 0 : (gamecontain.x + speed);
                         this.x -= speed;
                     }
+                    //console.log('gamecontainx====',gamecontain.x,'gamecontainy======',gamecontain.y);
+                    this.gamecontain.setPlayerIDpos(this.x, this.y - this.height / 2 - 30);
                 }
                 break;
         }

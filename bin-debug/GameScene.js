@@ -48,6 +48,11 @@ var GameScene = (function (_super) {
         this.playerrole.speed = GameData._i().PlayerRoleSpeed;
         this.playerrole.bompower = 1;
         this.rolearr.push(this.playerrole);
+        this.playeridtext = new GameUtil.MyTextField(this.playerrole.x - this.playerrole.width / 2, this.playerrole.y - this.playerrole.height / 2 - 30, 30);
+        //this.playeridtext.$setTextAlign(egret.HorizontalAlign.CENTER);
+        this.playeridtext.textColor = 0xffffff;
+        this.playeridtext.text = '' + GameData._i().UserInfo['ID'];
+        this.GameMapContain.addChild(this.playeridtext);
         for (var i = 0; i < GameData.AIROLENUM; i++) {
             this.createrole();
         }
@@ -71,7 +76,7 @@ var GameScene = (function (_super) {
             }
             dircontrolbtn.scaleX = sc;
             dircontrolbtn.scaleY = sc;
-            dircontrolbtn.alpha = 1;
+            dircontrolbtn.alpha = 0;
             this.addChild(dircontrolbtn);
             dircontrolbtn.name = '' + (i - 1);
             this.controldirarr.push(dircontrolbtn);
@@ -146,6 +151,10 @@ var GameScene = (function (_super) {
                 istouch = false;
             }
         }
+    };
+    p.setPlayerIDpos = function (x, y) {
+        this.playeridtext.x = x - this.playerrole.width / 2;
+        this.playeridtext.y = y;
     };
     p.gameover = function () {
         GameData._i().GameOver = true;

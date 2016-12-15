@@ -7,6 +7,7 @@ enum DIRECTION  {UP,RIGHT,DOWN,LEFT};     //方向
 class GameScene extends GameUtil.BassPanel
 {
     private playerrole: RoleSprite;
+    public playeridtext: GameUtil.MyTextField;
     public GameMapContain: egret.DisplayObjectContainer;
 
     public rolearr: RoleSprite[];
@@ -64,6 +65,12 @@ class GameScene extends GameUtil.BassPanel
         this.playerrole.speed = GameData._i().PlayerRoleSpeed;
         this.playerrole.bompower = 1;
         this.rolearr.push(this.playerrole);
+
+        this.playeridtext = new GameUtil.MyTextField(this.playerrole.x-this.playerrole.width/2,this.playerrole.y-this.playerrole.height/2 - 30,30);
+        //this.playeridtext.$setTextAlign(egret.HorizontalAlign.CENTER);
+        this.playeridtext.textColor = 0xffffff;
+        this.playeridtext.text = ''+GameData._i().UserInfo['ID'];
+        this.GameMapContain.addChild(this.playeridtext);
 
         for(var i: number=0;i < GameData.AIROLENUM;i++)
         {
@@ -193,6 +200,12 @@ class GameScene extends GameUtil.BassPanel
             }
         }
 
+    }
+
+    public setPlayerIDpos(x,y)
+    {
+        this.playeridtext.x = x-this.playerrole.width/2;
+        this.playeridtext.y = y;
     }
 
     public gameover()

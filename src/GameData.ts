@@ -2,7 +2,7 @@
  * Created by pior on 16/11/17.
  */
 
-enum SoundName{clicksound,startsound,putbombsound,bombsound,diesound,startgamebgm,gamebgm};
+enum SoundName{clicksound,startsound,putbombsound,bombsound,diesound,startgamebgm,gamebgm,end};
 
 class GameData {
 

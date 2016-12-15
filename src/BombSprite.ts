@@ -4,7 +4,6 @@
 
 class BombSprite extends GameUtil.MyBitmap
 {
-    private tw: any;
     private bombefl: GameUtil.MyBitmap;
     private bombefp: GameUtil.MyBitmap;
     public titag: number;
@@ -32,7 +31,7 @@ class BombSprite extends GameUtil.MyBitmap
     private start()
     {
         var self: any = this;
-        this.tw = egret.Tween.get(this,{loop:true}).to({scaleX:0.9,scaleY:0.9}).to({scaleX:1,scaleY:1},400);
+        egret.Tween.get(this,{loop:true}).to({scaleX:0.9,scaleY:0.9}).to({scaleX:1,scaleY:1},400);
         this.titag = egret.setTimeout(self.bomb,this,3000);
     }
 
@@ -46,8 +45,7 @@ class BombSprite extends GameUtil.MyBitmap
         GameData._i().gamesound[SoundName.bombsound].play(0,1);
 
         egret.clearTimeout(this.titag);
-        this.tw.loop = false;
-        egret.Tween.removeTweens(this.tw);
+        egret.Tween.removeTweens(this);
         this.visible = false;
         this.parcontain.removeChild(this);
         var index = this.gamecontain.bombarr.indexOf(this);
@@ -85,8 +83,7 @@ class BombSprite extends GameUtil.MyBitmap
             }
 
             egret.clearTimeout(this.titag);
-            this.tw.loop = false;
-            egret.Tween.removeTweens(this.tw);
+            egret.Tween.removeTweens(this);
             this.parcontain.removeChild(this.bombefl);
             this.parcontain.removeChild(this.bombefp);
             var lindex = gamecontain.bomeffectarr.indexOf(this.bombefl);
